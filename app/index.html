@@ -7,6 +7,239 @@
 <body>
 <h1>DoD Contracting in Hampton Roads</h1>
 <h2>Shawn Jones and Valentina Neblitt-Jones</h2>
-</body>
 
+<script language="JavaScript" src="libs/d3/d3.v3.min.js"></script>
+<script language="JavaScript" src="libs/topojson/topojson.v1.min.js"></script>
+<script language="JavaScript">
+
+    var width   = 1024,
+        height  = 768;
+
+/*
+    var projection = d3.geo.mercator()
+                        .scale(500)
+                        .translate([width / 2, height / 2]);
+                        */
+
+    var projection = d3.geo.albers()
+                        .center([0, 36.85])
+                        .rotate([76.5, 0])
+                        .parallels([36.5, 37.5])
+                        .scale(26000)
+                        .translate([width / 2, height / 2]);
+
+    var path = d3.geo.path()
+                .projection(projection);
+
+    var svg = d3.select("body").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+    d3.json("data/hrCounties-topo.json", function(error, hr) {
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.hrCounties))
+            .attr("d", path);
+
+    });
+
+    /*
+    d3.json("data/virginiaBeachCity-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.virginiaBeachCity))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/norfolkCity-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.norfolkCity))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/chesapeakeCity-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.chesapeakeCity))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/suffolkCity-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.suffolkCity))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/portsmouthCity-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.portsmouthCity))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/franklinCity-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.franklinCity))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/hamptonCity-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.hamptonCity))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/newportNewsCity-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.newportNewsCity))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/poquosonCity-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.poquosonCity))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/williamsburgCity-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.williamsburgCity))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/yorkCounty-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.yorkCounty))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/gloucesterCounty-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.gloucesterCounty))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/jamesCityCounty-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.jamesCityCounty))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/isleOfWightCounty-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.isleOfWightCounty))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/southhamptonCounty-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.southhamptonCounty))
+            .attr("d", path);
+
+    });
+
+    d3.json("data/surryCounty-topo.json", function(error, hr) {
+
+        if (error) return console.error(error);
+
+        console.log(hr);
+
+        svg.append("path")
+            .datum(topojson.feature(hr, hr.objects.surryCounty))
+            .attr("d", path);
+
+    });
+    */
+</script>
+
+</body>
 </html>
