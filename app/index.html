@@ -2,6 +2,24 @@
 <html>
 <head>
 <title>DoD Contracting in Hampton Roads</title>
+<meta charset="utf-8">
+<style>
+    .subunit093 { fill: #8dd3c7; }
+    .subunit095 { fill: #ffffb3; }
+    .subunit073 { fill: #bebada; }
+    .subunit175 { fill: #fb8072; }
+    .subunit710 { fill: #80b1d3; }
+    .subunit620 { fill: #fdb462; }
+    .subunit700 { fill: #b3de69; }
+    .subunit735 { fill: #fccde5; }
+    .subunit740 { fill: #d9d9d9; }
+    .subunit830 { fill: #bc80bd; }
+    .subunit181 { fill: #ccebc5; }
+    .subunit199 { fill: #ffed6f; }
+    .subunit650 { fill: #8dd3c7; }
+    .subunit800 { fill: #ffffb3; }
+    .subunit550 { fill: #bedada; }
+</style>
 </head>
 
 <body>
@@ -34,8 +52,16 @@
 
         console.log(hr);
 
+        /*
         svg.append("path")
             .datum(topojson.feature(hr, hr.objects.hrCounties))
+            .attr("d", path);
+        */
+
+        svg.selectAll(".subunit")
+            .data(topojson.feature(hr, hr.objects.hrCounties).features)
+            .enter().append("path")
+            .attr("class", function(d) { return "subunit" + d.id; })
             .attr("d", path);
 
     });
