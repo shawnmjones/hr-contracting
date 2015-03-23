@@ -8,7 +8,7 @@ rm -f *-topo.json
 shapefile=cb_2013_us_county_500k.shp
 #shapefile=tl_2013_51_cousub.shp
 
-ogr2ogr -f GeoJSON -where "STATEFP IN ( '51' ) AND COUNTYFP IN ( '550', '620', '073', '650', '093', '095', '700', '710', '735', '740', '175', '800', '181', '830', '199' )" hrCounties.json ${shapefile}
+ogr2ogr -f GeoJSON -where "STATEFP IN ( '51' ) AND COUNTYFP IN ( '550', '620', '073', '650', '093', '095', '700', '710', '735', '740', '175', '800', '810', '181', '830', '199' )" hrCounties.json ${shapefile}
 
 #ogr2ogr -f GeoJSON -where "STATEFP IN ( '51' ) AND COUNTYFP IN ( '550' )" chesapeakeCity.json ${shapefile}
 #ogr2ogr -f GeoJSON -where "STATEFP IN ( '51' ) AND COUNTYFP IN ( '620' )" franklinCity.json ${shapefile}

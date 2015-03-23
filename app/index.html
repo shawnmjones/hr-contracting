@@ -19,6 +19,15 @@
     .subunit650 { fill: #8dd3c7; }
     .subunit800 { fill: #ffffb3; }
     .subunit550 { fill: #bedada; }
+    .subunit810 { fill: #fdb462; }
+
+    .subunit-boundary {
+      fill: none;
+      stroke: #777;
+      stroke-dasharray: 2,2;
+      stroke-linejoin: round;
+    }
+
 </style>
 </head>
 
@@ -52,17 +61,16 @@
 
         console.log(hr);
 
-        /*
-        svg.append("path")
-            .datum(topojson.feature(hr, hr.objects.hrCounties))
-            .attr("d", path);
-        */
-
         svg.selectAll(".subunit")
             .data(topojson.feature(hr, hr.objects.hrCounties).features)
             .enter().append("path")
             .attr("class", function(d) { return "subunit" + d.id; })
             .attr("d", path);
+
+        svg.append("path")
+            .datum(topojson.mesh(hr, hr.objects.hrCounties), function (a, b) { return a!=b; })
+            .attr("d", path)
+            .attr("class", "subunit-boundary");
 
     });
 </script>
