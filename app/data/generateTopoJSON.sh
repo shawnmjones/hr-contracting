@@ -27,7 +27,7 @@ ogr2ogr -f GeoJSON -where "STATEFP IN ( '51' ) AND COUNTYFP IN ( '550', '620', '
 #ogr2ogr -f GeoJSON -where "STATEFP IN ( '51' ) AND COUNTYFP IN ( '830' )" williamsburgCity.json ${shapefile}
 #ogr2ogr -f GeoJSON -where "STATEFP IN ( '51' ) AND COUNTYFP IN ( '199' )" yorkCounty.json ${shapefile}
 
-topojson -o hrCounties-topo.json --id-property COUNTYFP --properties name=COUNTYFP -- hrCounties.json
+topojson -o hrCounties-topo.json --id-property COUNTYFP --properties name=NAME -- hrCounties.json
 
 #topojson -o chesapeakeCity-topo.json -- chesapeakeCity.json 
 #topojson -o franklinCity-topo.json -- franklinCity.json 
