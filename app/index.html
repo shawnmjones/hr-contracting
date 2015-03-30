@@ -3,7 +3,24 @@
 <head>
 <title>DoD Contracting in Hampton Roads</title>
 <meta charset="utf-8">
-<style>
+<!--
+    .subunit093 { fill: #fef0d9; } /* Isle of Wight */
+    .subunit095 { fill: #fdcc8a; } /* James City */
+    .subunit073 { fill: #fdcc8a; } /* Gloucester */
+    .subunit175 { fill: #fc8d59; } /* Southampton */
+    .subunit710 { fill: #fef0d9; } /* Norfolk */
+    .subunit620 { fill: #d7301f; } /* Franklin */
+    .subunit700 { fill: #d7301f; } /* Newport News */
+    .subunit735 { fill: #d7301f; } /* Poquoson */
+    .subunit740 { fill: #fdcc8a; } /* Portsmouth */
+    .subunit830 { fill: #fc8d59; } /* Williamsburg */
+    .subunit181 { fill: #fc8d59; } /* Surry */
+    .subunit199 { fill: #fef0d9; } /* York */
+    .subunit650 { fill: #d7301f; } /* Hampton */
+    .subunit800 { fill: #fdcc8a; } /* Suffolk */
+    .subunit550 { fill: #d7301f; } /* Chesapeake */
+    .subunit810 { fill: #d7301f; } /* Virginia Beach */
+
     /*
     .subunit093 { fill: #8dd3c7; }
     .subunit095 { fill: #ffffb3; }
@@ -22,7 +39,7 @@
     .subunit550 { fill: #bedada; }
     .subunit810 { fill: #fdb462; }
     */
-
+    
     .subunit093 { fill: #ffffcc; } /* Isle of Wight */
     .subunit095 { fill: #c2e699; } /* James City */
     .subunit073 { fill: #c2e699; } /* Gloucester */
@@ -39,6 +56,9 @@
     .subunit800 { fill: #c2e699; } /* Suffolk */
     .subunit550 { fill: #31a354; } /* Chesapeake */
     .subunit810 { fill: #006837; } /* Virginia Beach */
+
+-->
+<style>
 
     .selected { opacity: 0.2; }
 
@@ -90,48 +110,76 @@
                 .attr("width", width)
                 .attr("height", height);
 
-    d3.json("data/hrCounties-topo.json", function(error, hr) {
-        if (error) return console.error(error);
+    var countydata;
 
-        //console.log(hr);
+    d3.json("data/hrCounties-topo.json", function(error1, hr) {
+        if (error1) return console.error(error1);
 
-        var subunits = svg.selectAll(".subunit")
-            .data(topojson.feature(hr, hr.objects.hrCounties).features)
-            .enter().append("path")
-            .attr("class", function(d) { return "subunit" + d.id; })
-            .attr("d", path)
-            .on("mouseover", function(d, i) {
-                console.log("mouseover " + d.properties.name);
-                d3.select(this).attr("class", "selected");
-            })
-            .on("mouseout", function(d, i) {
-                console.log("mouseout " + d.properties.name);
-                d3.select(this).attr("class", function(d) { return "subunit" + d.id; })
-            })
-            .on("mousemove", function(d, i) {
-                console.log("mouseout " + d.properties.name);
-                d3.select(this).attr("class", "selected");
-            })
-            .on("click", function(d, i) {
-                console.log("click " + d.properties.name);
-                window.alert("You clicked on " + d.properties.name);
-            });
+        // d3.csv("data/financials/" + window.year + "-" + window.agency + ".csv", mapdata) {
+        d3.tsv("data/financials/testdata.tsv", function(error2, findata) {
+            if (error2) return console.error(error2);
 
-        svg.append("path")
-            .datum(topojson.mesh(hr, hr.objects.hrCounties), function (a, b) { return a!=b; })
-            .attr("d", path)
-            .attr("class", "subunit-boundary");
+            console.log("inside function loading data");
+            console.log(hr);
+            console.log(findata);
+    
+            var subunits = svg.selectAll(".subunit")
+                .data(topojson.feature(hr, hr.objects.hrCounties).features)
+                .enter().append("path")
+                .attr("style", function(d) {
 
-        svg.selectAll(".subunit-label")
-            .data(topojson.feature(hr, hr.objects.hrCounties).features)
-            .enter().append("text")
-            .attr("class", function(d) { return "subunit-label " + d.id; })
-            .attr("transform", function(d) { return "translate(" + path.centroid(d) + ")"; })
-            .attr("dy", ".35em")
-            .text(function(d) { return d.properties.name; });
+                        for (var i = 0; i < findata.length; i++) {
+                            console.log("looking for: " + d.id);
+                            console.log("comparing with : " + findata[i].id + "," + findata[i].name);
+                            if (findata[i].id == d.id) {
+                                console.log("found " + findata[i].id);
+                                console.log("returning color " + findata[i].color);
+                                color = findata[i].color;
+                                break;
+                            }
+                        }
 
+                        return "fill:" + color;
+                    })
+                .attr("d", path)
+                .on("mouseover", function(d, i) {
+                    console.log("mouseover " + d.id + ":" + d.properties.name);
+                    d3.select(this).attr("class", "selected");
+                })
+                .on("mouseout", function(d, i) {
+                    console.log("mouseout " + d.id + ":" + d.properties.name);
+                    d3.select(this).attr("class", function(d) { return "subunit" + d.id; })
+                })
+                .on("mousemove", function(d, i) {
+                    console.log("mouseout " + d.id + ":" + d.properties.name);
+                    d3.select(this).attr("class", "selected");
+                })
+                .on("click", function(d, i) {
+                    console.log("click " + d.id + ":" + d.properties.name);
+                    window.alert("You clicked on " + d.properties.name);
+                });
+   
+            // create the boundaries
+            svg.append("path")
+                .datum(topojson.mesh(hr, hr.objects.hrCounties), function (a, b) { return a!=b; })
+                .attr("d", path)
+                .attr("class", "subunit-boundary");
+
+            // label the counties
+            svg.selectAll(".subunit-label")
+                .data(topojson.feature(hr, hr.objects.hrCounties).features)
+                .enter().append("text")
+                .attr("class", function(d) { return "subunit-label " + d.id; })
+                .attr("transform", function(d) { 
+                        return "translate(" + path.centroid(d) + ")"; 
+                    })
+                .attr("dy", ".35em")
+                .text(function(d) { return d.properties.name; });
+
+        });
          
     });
+
 </script>
 
 </body>
