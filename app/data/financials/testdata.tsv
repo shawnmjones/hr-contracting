@@ -1,17 +1,17 @@
 name	id	color
-Isle of Wight	093	#ffffcc
-James City	095	#c2e699
-Gloucester 	073	#c2e699
-Southampton 	175	#78c679
-Norfolk 	710	#ff0000
+Isle of Wight	093	#edf8e9
+James City	095	#bae4b3
+Gloucester 	073	#bae4b3
+Southampton 	175	#74c476
+Norfolk 	710	#edf8e9
 Franklin 	620	#31a354
-Newport News 	700	#006837
-Poquoson 	735	#006837
-Portsmouth 	740	#c2e699
-Williamsburg 	830	#78c679
-Surry 	181	#78c679
-York 	199	#ffffcc
-Hampton 	650	#006837
-Suffolk 	800	#c2e699
+Newport News 	700	#006d2c
+Poquoson 	735	#006d2c
+Portsmouth 	740	#bae4b3
+Williamsburg 	830	#74c476
+Surry 	181	#74c476
+York 	199	#edf8e9
+Hampton 	650	#006d2c
+Suffolk 	800	#bae4b3
 Chesapeake 	550	#31a354
-Virginia Beach 	810	#006837
+Virginia Beach 	810	#006d2c

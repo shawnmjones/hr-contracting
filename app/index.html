@@ -60,26 +60,28 @@
 -->
 <style>
 
-    .selected { opacity: 0.2; }
+    .selected {
+        opacity: 0.7;
+    }
 
     .subunit-boundary {
-      fill: none;
-      stroke: #777;
-      stroke-dasharray: 2,2;
-      stroke-linejoin: round;
+        fill: none;
+        stroke: #ffffff;
+        stroke-width: 1px;
+        stroke-dasharray: 0,1;
+        stroke-linejoin: round;
     }
 
     .subunit-label {
-      fill: #000;
-      fill-opacity: .5;
-      font-size: 14px;
-      font-weight: 300;
-      text-anchor: middle;
-      text-shadow:
-        -1px 0px 0 #fff,
-        0px -1px 0 #fff,
-        0px 1px 0 #fff,
-        1px 0px 0 #fff;
+        fill: #fff;
+        font-size: 12px;
+        font-weight: 300;
+        text-anchor: middle;
+        text-shadow:
+          -2px 0px 0 #000,
+          0px -2px 0 #000,
+          0px 2px 0 #000,
+          2px 0px 0 #000;
     }
 
 </style>
@@ -93,6 +95,16 @@
 <script src="libs/topojson/topojson.v1.min.js"></script>
 <script>
 
+    var formBlock = d3.select("body").append("p").append("form").attr("id", "axes");
+
+    var yearoptions = formBlock.append("label").text("Year")
+      .append("select").attr("id", "year").attr("class", "dimsElement");
+    
+    formBlock.append("br");
+    
+    var agencyoptions = formBlock.append("label").text("Agency")
+      .append("select").attr("id", "agency").attr("class", "dimsElement");
+
     var width   = 1024,
         height  = 768;
 
@@ -100,17 +112,19 @@
                         .center([0, 36.85])
                         .rotate([76.5, 0])
                         .parallels([36.5, 37.5])
-                        .scale(26000)
-                        .translate([width / 2, height / 2]);
+                        .scale(24000)
+                        .translate([340, 334]);
 
     var path = d3.geo.path()
                 .projection(projection);
+
 
     var svg = d3.select("body").append("svg")
                 .attr("width", width)
                 .attr("height", height);
 
-    var countydata;
+    //d3.select("#x-axis").on("change", xFieldChange);
+    //d3.select("#y-axis").on("change", yFieldChange);
 
     d3.json("data/hrCounties-topo.json", function(error1, hr) {
         if (error1) return console.error(error1);
