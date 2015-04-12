@@ -1,0 +1,98 @@
+[
+    {
+        "name": "Isle of Wight",
+        "id": "093",
+        "color": "#edf8e9",
+        "value": "123456789"
+    },
+    {
+        "name": "James City",
+        "id": "095",
+        "color": "#bae4b3",
+        "value": "123456789"
+    },
+    {
+        "name": "Gloucester",
+        "id": "073",
+        "color": "#bae4b3",
+        "value": "123456789"
+    },
+    {
+        "name": "Southampton",
+        "id": "175",
+        "color": "#74c476",
+        "value": "123456789"
+    },
+    {
+        "name": "Norfolk",
+        "id": "710",
+        "color": "#edf8e9",
+        "value": "123456789"
+    },
+    {
+        "name": "Franklin",
+        "id": "620",
+        "color": "#31a354",
+        "value": "123456789"
+    },
+    {
+        "name": "Newport News",
+        "id": "700",
+        "color": "#006d2c",
+        "value": "123456789"
+    },
+    {
+        "name": "Poquoson",
+        "id": "735",
+        "color": "#006d2c",
+        "value": "123456789"
+    },
+    {
+        "name": "Portsmouth",
+        "id": "740",
+        "color": "#bae4b3",
+        "value": "123456789"
+    },
+    {
+        "name": "Williamsburg",
+        "id": "830",
+        "color": "#74c476",
+        "value": "123456789"
+    },
+    {
+        "name": "Surry",
+        "id": "181",
+        "color": "#74c476",
+        "value": "123456789"
+    },
+    {
+        "name": "York",
+        "id": "199",
+        "color": "#edf8e9",
+        "value": "123456789"
+    },
+    {
+        "name": "Hampton",
+        "id": "650",
+        "color": "#006d2c",
+        "value": "123456789"
+    },
+    {
+        "name": "Suffolk",
+        "id": "800",
+        "color": "#bae4b3",
+        "value": "123456789"
+    },
+    {
+        "name": "Chesapeake",
+        "id": "550",
+        "color": "#31a354",
+        "value": "123456789"
+    },
+    {
+        "name": "Virginia Beach",
+        "id": "810",
+        "color": "#006d2c",
+        "value": "123456789"
+    }
+]
