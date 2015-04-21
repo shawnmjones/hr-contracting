@@ -11,14 +11,52 @@ def addfunding(alldata, key, funding):
     else:
         alldata[key] = funding
 
+    return alldata
+
+def generateCombinations(alldata, year, agency, locality, funding, industry):
+   
+    # all options selected by user, used by choropleth and bar chart
+    fullkey = year + '~' + agency + '~' + locality + '~' + industry
+    
+    # options to draw an instance of the choropleth for a given year
+    choroplethkey = year + '~' + agency + '~' + locality + '~ALL'
+    
+    # options to draw bar chart for all localities, single agency
+    bar1key = year + '~' + agency + '~ALL~' + industry
+    
+    # options to draw bar chart for single locality, all agencies
+    bar2key = year + '~ALL~' + locality + '~' + industry
+    
+    # options to draw bar chart for all localities, all agencies
+    bar3key = year + '~ALL~ALL~' + industry
+    
+    # options to draw line chart for all localities, all agencies
+    line1key = year + '~ALL~ALL~ALL'
+    
+    # options to draw line chart for all localities, single agency
+    line2key = year + '~' + agency + '~ALL~ALL'
+    
+    # options to draw line chart for single locality, single agency
+    line3key = year + '~' + agency + '~' + locality + '~ALL'
+    
+    # options to draw line chart for single locality, all agencies
+    line4key = year + '~ALL~' + locality + '~ALL'
+    
+    alldata = addfunding(alldata, choroplethkey, funding)
+    alldata = addfunding(alldata, bar1key, funding)
+    alldata = addfunding(alldata, bar2key, funding)
+    alldata = addfunding(alldata, bar3key, funding)
+    alldata = addfunding(alldata, line1key, funding)
+    alldata = addfunding(alldata, line2key, funding)
+    alldata = addfunding(alldata, line3key, funding)
+    alldata = addfunding(alldata, line4key, funding)
 
     return alldata
-   
 
 def main(args):
 
     inputfilename = args[1]
-    outputfile = args[2]
+    outputfilename = args[2]
 
     years = []
     agencies = []
@@ -27,16 +65,8 @@ def main(args):
 
     alldata = {}
 
-    # year ~ agency ~ locality ~ funding
-
     with open(inputfilename, 'rU') as csvfile:
         csvreader = csv.DictReader(csvfile, delimiter=',', quotechar='"')
-
-        # 0 - year
-        # 1 - agency
-        # 2 - locality
-        # 3 - funding
-        # 4 - industry
 
         for row in csvreader:
 
@@ -46,20 +76,17 @@ def main(args):
             funding = D(row['funding'])
             industry = row['industry']
 
-            fullkey = year + '~' + agency + '~' + locality
-            allagencykey = year + '~ALL~' + locality
-            alllocalitykey = year + '~' + agency + '~ALL'
-            allagencylocalitykey = year + '~ALL~ALL'
+            alldata = generateCombinations(alldata, year, agency, locality, funding, industry)
 
-            alldata = addfunding(alldata, fullkey, funding)
-            alldata = addfunding(alldata, allagencykey, funding)
-            alldata = addfunding(alldata, alllocalitykey, funding)
-            alldata = addfunding(alldata, allagencylocalitykey, funding)
+    output = open(outputfilename, 'w')
+
+    output.write(','.join([ 'year', 'agency', 'locality', 'industry', 'funding' ]) + '\n')
 
     for key in alldata.keys():
         keys = key.split('~')
-        print ','.join(keys) + ',' + str(alldata[key])
+        output.write(','.join(keys) + ',' + str(alldata[key]) + '\n')
 
+    output.close()
 
 if __name__ == '__main__':
     main(sys.argv)
