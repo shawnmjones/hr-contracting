@@ -53,6 +53,7 @@
 <script src="libs/jquery/jquery-1.11.2.min.js"></script>
 <script src="libs/d3/d3.v3.min.js"></script>
 <script src="libs/topojson/topojson.v1.min.js"></script>
+<script src="libs/colorbrewer/colorbrewer.js"></script>
 <script>
 
     var formBlock = d3.select("body").append("p").append("form").attr("id", "axes");
@@ -65,7 +66,7 @@
     var agencyoptions = formBlock.append("label").text("Agency")
       .append("select").attr("id", "agency").attr("class", "agencySelector");
 
-    var width   = 570,
+    var width   = 575,
         height  = 468;
 
     var projection = d3.geo.albers()
@@ -73,7 +74,7 @@
                         .rotate([76.5, 0])
                         .parallels([36.5, 37.5])
                         .scale(24000)
-                        .translate([340, 334]);
+                        .translate([360, 334]);
 
     var path = d3.geo.path()
                 .projection(projection);
@@ -156,6 +157,7 @@
             d3.select("#year").on("change", yearChange);
 
             drawChoropleth();
+            drawBarchart();
 
             function fetchColor(value) {
 
@@ -243,6 +245,38 @@
                     .datum(topojson.mesh(hr, hr.objects.hrCounties), function (a, b) { return a!=b; })
                     .attr("d", path)
                     .attr("class", "subunit-boundary");
+
+                colors = d3.scale.ordinal()
+                    .domain( [ "< $100,000", "$100,000 - $500,000", "$500,000 - $2,000,000", "$2,000,000 - $8,000,000", "> $8,000,000" ] )
+                    .range(colorbrewer.Greens[5]);
+
+                var legend = svg.selectAll(".legend")
+                    .data( colors.domain() )
+                    .enter().append("g")
+                    .attr("class", "legend")
+                    .attr("transform", function(d, i) {
+                        return "translate(-369," + (i+1) * 20 + ")"; }
+                        );
+
+                legend.append("rect")
+                    .attr("x", width - 18)
+                    .attr("width", 18)
+                    .attr("height", 18)
+                    .style("fill", colors );
+
+
+                // draw legend text
+                legend.append("text")
+                    .attr("x", width - 24)
+                    .attr("y", 9)
+                    .attr("dy", ".35em")
+                    .style("text-anchor", "end")
+                    .text(function(d) { return d; });
+
+            }
+
+            function drawBarchart() {
+
             }
 
         });
