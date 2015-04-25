@@ -11,7 +11,7 @@
 
     .subunit-boundary {
         fill: none;
-        stroke: #ffffff;
+        stroke: #000000;
         stroke-width: 1px;
         stroke-dasharray: 0,1;
         stroke-linejoin: round;
@@ -80,7 +80,13 @@
                 .projection(projection);
 
 
-    var svg = d3.select("body").append("svg")
+    var cpsvg = d3.select("body").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("style", "background-color: #eeeeee");
+//                .attr("style", "background-color: #deebf7");
+
+    var barsvg = d3.select("body").append("svg")
                 .attr("width", width)
                 .attr("height", height)
                 .attr("style", "background-color: light-blue");
@@ -207,7 +213,7 @@
                 }
 
     
-                var subunits = svg.selectAll(".subunit")
+                var subunits = cpsvg.selectAll(".subunit")
                     .data(topojson.feature(hr, hr.objects.hrCounties).features)
                     .enter().append("path")
                     .attr("style", function(d) {
@@ -241,7 +247,7 @@
                     });
        
                 // create the boundaries
-                svg.append("path")
+                cpsvg.append("path")
                     .datum(topojson.mesh(hr, hr.objects.hrCounties), function (a, b) { return a!=b; })
                     .attr("d", path)
                     .attr("class", "subunit-boundary");
@@ -250,7 +256,7 @@
                     .domain( [ "< $100,000", "$100,000 - $500,000", "$500,000 - $2,000,000", "$2,000,000 - $8,000,000", "> $8,000,000" ] )
                     .range(colorbrewer.Greens[5]);
 
-                var legend = svg.selectAll(".legend")
+                var legend = cpsvg.selectAll(".legend")
                     .data( colors.domain() )
                     .enter().append("g")
                     .attr("class", "legend")
