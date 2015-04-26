@@ -23,9 +23,9 @@
 
     .subunit-boundary {
         fill: none;
-        stroke: #000000;
-        stroke-width: 1px;
-        stroke-dasharray: 0,1;
+        stroke: #777;
+        stroke-width: 2px;
+        stroke-dasharray: 2,2;
         stroke-linejoin: round;
     }
 
@@ -75,6 +75,16 @@
       stroke-width: 1.5px;
     }
 
+    .overlay {
+      fill: none;
+      pointer-events: all;
+    }
+    
+    .focus circle {
+      fill: none;
+      stroke: steelblue;
+    }
+
 </style>
 </head>
 
@@ -115,7 +125,7 @@
 
 
     var upperchartwidth = 2 * width;
-    var upperchartheight = 100 - margin.top - margin.bottom;
+    var upperchartheight = 60 - margin.top - margin.bottom;
 
     var upperchart = d3.select("body").append("div");
 
@@ -273,7 +283,6 @@
                     .attr("y", 0 - (margin.top / 4) + 20)
                     .attr("text-anchor", "middle")  
                     .style("font-size", "20px") 
-                    .style("background-color", "#eeeeee")
                     .text("Geography of Funding");
     
                 var subunits = cpsvg.selectAll(".subunit")
@@ -408,12 +417,7 @@
                 var yAxis2 = d3.svg.axis()
                     .scale(y)
                     .orient("left")
-                    .ticks(10);
-                    /*
-                    .tickFormat(function (d) {
-                        return commasFormatter(d.Funding);
-                    })
-                    */
+                    .ticks(10, "$,.2f");
 
                 x.domain(bardataTop5.map(function(d) { return d.Industry; }));
                 y.domain([ 0, bardataTop5[0].Funding ]);
@@ -426,7 +430,6 @@
                     .call(xAxis2);
                 */
 
-    
                 barsvg.append("g")
                     .attr("class", "y axis")
                     .call(yAxis2)
@@ -508,6 +511,8 @@
                     }
                 }
 
+                console.log(linedata.length);
+
                 linedata.sort(function(a, b) {
                     return a.Year - b.Year;
                 });
@@ -518,36 +523,28 @@
                 
                 // Define the axes
                 var xAxis = d3.svg.axis().scale(x)
-                    .orient("bottom").ticks(5);
+                    .orient("bottom").ticks(5, "0000");
                 
                 var yAxis = d3.svg.axis().scale(y)
-                    .orient("left").ticks(3);
+                    .orient("left").ticks(3, "$,.0f");
 
                 // Define the line
                 var line = d3.svg.line()
                     .x(function(d) { return x(d.Year); })
                     .y(function(d) { return y(d.Funding); });
 
-                console.log("minimum!!!");
-
                 yearmin = d3.min(linedata, function(d) { return +d.Year; }) - 1;
-                yearmax = d3.max(linedata, function(d) { return +d.Year; }) + 1;
+                yearmax = d3.max(linedata, function(d) { return +d.Year; }) + 2;
 
                 // Scale the range of the data
                 x.domain( [ yearmin, yearmax ] );
                 y.domain([0, d3.max(linedata, function(d) { return d.Funding; })]);
               
-                console.log(line);
-
-                // Add the valueline path.
+                // Add the line path
                 linesvg.append("path")
                     .datum(linedata)
                     .attr("class", "line")
                     .attr("d", line);
-
-                    /*
-                    .attr("d", valueline(linedata));
-                    */
                 
                 // Add the X Axis
                 linesvg.append("g")
@@ -556,9 +553,49 @@
                     .call(xAxis);
                 
                 // Add the Y Axis
+                /*
                 linesvg.append("g")
                     .attr("class", "y axis")
                     .call(yAxis);
+                */
+
+                var parseDate = d3.time.format("%d-%b-%y").parse,
+                    bisectDate = d3.bisector(function(d) { return d.Year; }).left,
+                    formatValue = d3.format(",.2f"),
+                    formatCurrency = function(d) { return "$" + formatValue(d); };
+
+                var focus = linesvg.append("g")
+                    .attr("class", "focus")
+                    .style("display", "none");
+
+                focus.append("circle")
+                    .attr("r", 4.5);
+
+                focus.append("text")
+                    .attr("x", 9)
+                    .attr("dy", ".35em");
+
+                linesvg.append("rect")
+                    .attr("class", "overlay")
+                    .attr("width", upperchartwidth)
+                    .attr("height", upperchartheight)
+                    .on("mouseover", function() { focus.style("display", null); })
+                    .on("mouseout", function() { focus.style("display", "none"); })
+                    .on("mousemove", mousemove);
+
+                function mousemove() {
+
+                    //console.log(linedata[i - 1]);
+                    //console.log(linedata[i]);
+
+                    var x0 = x.invert(d3.mouse(this)[0]),
+                        i = bisectDate(linedata, x0, 1),
+                        d0 = linedata[i - 1],
+                        d1 = linedata[i],
+                        d = x0 - d0.Year > d1.Year - x0 ? d1 : d0;
+                    focus.attr("transform", "translate(" + x(d.Year) + "," + y(d.Funding) + ")");
+                    focus.select("text").text(formatCurrency(d.Funding));
+                }
                 
             }
                 
