@@ -115,7 +115,7 @@
 
 
     var upperchartwidth = 2 * width;
-    var upperchartheight = 200 - margin.top - margin.bottom;
+    var upperchartheight = 100 - margin.top - margin.bottom;
 
     var upperchart = d3.select("body").append("div");
 
@@ -204,12 +204,14 @@
                 agencySet = d3.event.target.value; 
                 drawChoropleth();
                 drawBarchart();
+                drawLinechart();
             }
 
             var yearChange = function(d, id) {
                 yearSet = d3.event.target.value; 
                 drawChoropleth();
                 drawBarchart();
+                drawLinechart();
             }
 
             d3.select("#agency").on("change", agencyChange);
@@ -519,7 +521,7 @@
                     .orient("bottom").ticks(5);
                 
                 var yAxis = d3.svg.axis().scale(y)
-                    .orient("left").ticks(5);
+                    .orient("left").ticks(3);
 
                 // Define the line
                 var line = d3.svg.line()
