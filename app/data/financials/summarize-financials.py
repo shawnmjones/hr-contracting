@@ -80,11 +80,14 @@ def main(args):
 
     output = open(outputfilename, 'w')
 
-    output.write(','.join([ 'year', 'agency', 'locality', 'industry', 'funding' ]) + '\n')
+    csvwriter = csv.writer(output, delimiter='\t', quotechar='"')
+
+    csvwriter.writerow( [ 'year', 'agency', 'locality', 'industry', 'funding' ] )
 
     for key in alldata.keys():
         keys = key.split('~')
-        output.write(','.join(keys) + ',' + str(alldata[key]) + '\n')
+        keys.extend(list((alldata[key], )))
+        csvwriter.writerow( keys )
 
     output.close()
 
