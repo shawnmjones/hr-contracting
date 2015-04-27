@@ -633,6 +633,13 @@
                     .attr("r", 5.5)
                     .attr("cx", function(d) { return x(d.Year); })
                     .attr("cy", function(d) { return y(d.Funding); })
+                    .style("fill", function(d) {
+                        if ( d.Year == yearSet ) {
+                            return "#ff0000";
+                        } else {
+                            return "#000000";
+                        }
+                    })
                     .on("mouseover", function(d) {
                         format = d3.format("0,000");
 
@@ -652,7 +659,15 @@
                              .duration(500)
                              .style("opacity", 0);
                     });
-              
+
+                linesvg.append("line")
+                    .attr("x1", x(yearSet))  //<<== change your code here
+                    .attr("y1", 0 - margin.top - margin.bottom)
+                    .attr("x2", x(yearSet))  //<<== and here
+                    .attr("y2", upperchartheight)
+                    .style("stroke-width", 2)
+                    .style("stroke", "red")
+                    .style("fill", "none");
                 
             }
                 
