@@ -479,7 +479,7 @@
                           return "steelblue";
                         })
                         .attr("x", function(d) { return x(d.Industry); })
-                        .attr("width", x.rangeBand())
+                        .attr("width", "63")
                         .attr("y", function(d) { return y(d.Funding); })
                         .attr("height", function(d) { return height - y(d.Funding); })
                         .on("mouseover", function(d, i) {
@@ -668,6 +668,14 @@
                     .style("stroke-width", 2)
                     .style("stroke", "red")
                     .style("fill", "none");
+
+                linesvg.append("text")
+                    .attr("id", "linelabel")
+                    .attr("x", -80)
+                    .attr("y", 0)
+                    .attr("text-anchor", "middle")
+                    .style("font-size", "20px")
+                    .text("Funding Trend");
                 
             }
                 
