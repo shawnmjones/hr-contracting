@@ -4,11 +4,17 @@ import sys
 import csv
 from decimal import Decimal as D
 
+import pprint
+
+pp = pprint.PrettyPrinter(indent=4)
+
 def addfunding(alldata, key, funding):
 
     if key in alldata:
+        print "adding " + str(funding) + " for key " + key + " to " + str(alldata[key])
         alldata[key] += funding
     else:
+        print "inserting " + str(funding) + " as new entry for " + key
         alldata[key] = funding
 
     return alldata
@@ -37,9 +43,9 @@ def generateCombinations(alldata, year, agency, locality, funding, industry):
     line2key = year + '~' + agency + '~ALL~ALL'
     
     # options to draw line chart for single locality, single agency
-    line3key = year + '~' + agency + '~' + locality + '~ALL'
+    #line3key = year + '~' + agency + '~' + locality + '~ALL'
     
-    # options to draw line chart for single locality, all agencies
+    # options to draw line chart for single locality, all agencies, all industries
     line4key = year + '~ALL~' + locality + '~ALL'
     
     alldata = addfunding(alldata, choroplethkey, funding)
@@ -48,7 +54,7 @@ def generateCombinations(alldata, year, agency, locality, funding, industry):
     alldata = addfunding(alldata, bar3key, funding)
     alldata = addfunding(alldata, line1key, funding)
     alldata = addfunding(alldata, line2key, funding)
-    alldata = addfunding(alldata, line3key, funding)
+    #alldata = addfunding(alldata, line3key, funding)
     alldata = addfunding(alldata, line4key, funding)
 
     return alldata
