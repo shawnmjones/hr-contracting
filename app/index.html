@@ -132,6 +132,26 @@
 
 <script>
 
+    var localityList = {
+        "ALL": "ALL",
+        "Chesapeake": "City of Chesapeake",
+        "Franklin": "City of Franklin",
+        "Hampton": "City of Hampton",
+        "Newport News": "City of Newport News",
+        "Norfolk": "City of Norfolk",
+        "Poquoson": "City of Poquoson",
+        "Portsmouth": "City of Portsmouth",
+        "Suffolk": "City of Suffolk",
+        "Virginia Beach": "City of Virginia Beach",
+        "Williamsburg": "City of Williamsburg",
+        "Gloucester": "Gloucester County",
+        "Isle of Wight": "Isle of Wight County",
+        "James City": "James City County",
+        "Southampton": "Southampton County",
+        "Surry": "Surry County",
+        "York": "York County"
+    };
+
     var yearoptions = d3.select("#year");
     
     var agencyoptions = d3.select("#agency");
@@ -252,10 +272,17 @@
                     .attr("value", agencies[i]).attr("selected");
             }
 
+            for (var locality in localityList) {
+                localityoptions.append("option").text(localityList[locality])
+                    .attr("value", locality).attr("selected");
+            }
+
+            /*
             for (var i = 0; i < localities.length; i++) {
-                localityoptions.append("option").text(localities[i])
+                localityoptions.append("option").text(localityList[localities[i]])
                     .attr("value", localities[i]).attr("selected");
             }
+            */
 
             var agencyChange = function(d, id) {
                 agencySet = d3.event.target.value; 
@@ -344,7 +371,16 @@
                     .data(topojson.feature(hr, hr.objects.hrCounties).features)
                     .enter().append("path")
                     .style("fill", function(d) {
-                            return fetchColor(d.properties.funding);
+                            if (localitySet == "ALL") {
+                                return fetchColor(d.properties.funding);
+                            }
+
+                            if (d.properties.name == localitySet) {
+                                return fetchColor(d.properties.funding);
+                            } else {
+                                return "#dddddd";
+                            }
+
                         })
                     .attr("d", path)
                     .on("mouseover", function(d, i) {
@@ -356,7 +392,8 @@
                         format = d3.format(",.2f");
                         displayFunding = format(d.properties.funding);
     
-                        cptooltip.html(d.properties.name + "<br />$" + displayFunding)
+                        cptooltip.html(localityList[d.properties.name] +
+                                "<br />$" + displayFunding)
                              .style("left", (d3.event.pageX + 10) + "px")
                              .style("top", (d3.event.pageY - 28) + "px");
                     })
@@ -676,7 +713,7 @@
                         linetooltip.html(
                                 "Year: " + d.Year + "<br/> " +
                                 "Agency:  " + agencySet + "<br />" + 
-                                "Locality: " + localitySet + "<br />" +
+                                "Locality: " + localityList[localitySet] + "<br />" +
                                 "Funding: $" + format(d.Funding)
                                 )
                              .style("left", (d3.event.pageX + 10) + "px")
