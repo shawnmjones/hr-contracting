@@ -61,6 +61,16 @@
         text-align: center;
     }
 
+    .linetooltip {
+        position: absolute;
+        width: 220px;
+        height: 40px;
+        pointer-events: none;
+        background-color: #ffffee;
+        font-family: Helvetica, Sans;
+        text-align: center;
+    }
+
     body {
         font-family: Helvetica, Sans;
     }
@@ -163,6 +173,10 @@
 
     var bartooltip = d3.select("body").append("div")
         .attr("class", "bartooltip")
+        .style("opacity", 0);
+
+    var linetooltip = d3.select("body").append("div")
+        .attr("class", "linetooltip")
         .style("opacity", 0);
 
     var years = new Array(); 
@@ -298,7 +312,7 @@
                                 .duration(200)
                                 .style("opacity", .9);
 
-                        format = d3.format("0,000");
+                        format = d3.format(",.2f");
                         displayFunding = format(d.properties.funding);
     
                         cptooltip.html(d.properties.name + "<br />$" + displayFunding)
@@ -383,8 +397,6 @@
                         }
                     }
                 }
-
-                console.log(bardata.length);
 
                 if (bardata.length > 0) {
 
@@ -540,7 +552,9 @@
                     }
                 }
 
-                //console.log(linedata.length);
+                console.log(linedata.length);
+                console.log(linedata);
+
 
                 linedata.sort(function(a, b) {
                     return a.Year - b.Year;
@@ -568,6 +582,31 @@
                 // Scale the range of the data
                 x.domain( [ yearmin, yearmax ] );
                 y.domain([0, d3.max(linedata, function(d) { return d.Funding; })]);
+
+                linesvg.selectAll("dot")
+                    .data(linedata)
+                    .enter().append("circle")
+                    .attr("r", 5.5)
+                    .attr("cx", function(d) { return x(d.Year); })
+                    .attr("cy", function(d) { return y(d.Funding); })
+                    .on("mouseover", function(d) {
+                        format = d3.format("0,000");
+
+                        linetooltip.transition()
+                             .duration(200)
+                             .style("opacity", .9);
+                        linetooltip.html(
+                                "Year: " + d.Year + "<br/> " +
+                                "$" + format(d.Funding)
+                                )
+                             .style("left", (d3.event.pageX + 10) + "px")
+                             .style("top", (d3.event.pageY - 28) + "px");
+                    })
+                    .on("mouseout", function(d) {
+                        linetooltip.transition()
+                             .duration(500)
+                             .style("opacity", 0);
+                    });
               
                 // Add the line path
                 linesvg.append("path")
@@ -580,51 +619,15 @@
                     .attr("class", "x axis")
                     .attr("transform", "translate(0," + upperchartheight + ")")
                     .call(xAxis);
+              
                 
+
                 // Add the Y Axis
                 /*
                 linesvg.append("g")
                     .attr("class", "y axis")
                     .call(yAxis);
                 */
-
-                var parseDate = d3.time.format("%d-%b-%y").parse,
-                    bisectDate = d3.bisector(function(d) { return d.Year; }).left,
-                    formatValue = d3.format(",.2f"),
-                    formatCurrency = function(d) { return "$" + formatValue(d); };
-
-                var focus = linesvg.append("g")
-                    .attr("class", "focus")
-                    .style("display", "none");
-
-                focus.append("circle")
-                    .attr("r", 4.5);
-
-                focus.append("text")
-                    .attr("x", 9)
-                    .attr("dy", ".35em");
-
-                linesvg.append("rect")
-                    .attr("class", "overlay")
-                    .attr("width", upperchartwidth)
-                    .attr("height", upperchartheight)
-                    .on("mouseover", function() { focus.style("display", null); })
-                    .on("mouseout", function() { focus.style("display", "none"); })
-                    .on("mousemove", mousemove);
-
-                function mousemove() {
-
-                    //console.log(linedata[i - 1]);
-                    //console.log(linedata[i]);
-
-                    var x0 = x.invert(d3.mouse(this)[0]),
-                        i = bisectDate(linedata, x0, 1),
-                        d0 = linedata[i - 1],
-                        d1 = linedata[i],
-                        d = x0 - d0.Year > d1.Year - x0 ? d1 : d0;
-                    focus.attr("transform", "translate(" + x(d.Year) + "," + y(d.Funding) + ")");
-                    focus.select("text").text(formatCurrency(d.Funding));
-                }
                 
             }
                 
