@@ -607,7 +607,7 @@
                     errortext.append("tspan")
                         .attr("x", 0)
                         .attr("dy", "1.2em")
-                        .text("for locality " + localitySet);
+                        .text("for locality " + localityList[localitySet]);
 
 
 
@@ -679,60 +679,84 @@
                 x.domain( [ yearmin, yearmax ] );
                 y.domain([0, d3.max(linedata, function(d) { return d.Funding; })]);
 
-                // Add the line path
-                linesvg.append("path")
-                    .datum(linedata)
-                    .attr("class", "line")
-                    .attr("d", line);
-                
-                // Add the X Axis
-                linesvg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + upperchartheight + ")")
-                    .call(xAxis);
+                if ( linedata.length > 0 ) {
 
-                linesvg.selectAll("dot")
-                    .data(linedata)
-                    .enter().append("circle")
-                    .attr("r", 5.5)
-                    .attr("cx", function(d) { return x(d.Year); })
-                    .attr("cy", function(d) { return y(d.Funding); })
-                    .style("fill", function(d) {
-                        if ( d.Year == yearSet ) {
-                            return "#ff0000";
-                        } else {
-                            return "#000000";
-                        }
-                    })
-                    .on("mouseover", function(d) {
-                        format = d3.format("0,000");
+                    // Add the line path
+                    linesvg.append("path")
+                        .datum(linedata)
+                        .attr("class", "line")
+                        .attr("d", line);
+                    
+                    // Add the X Axis
+                    linesvg.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0," + upperchartheight + ")")
+                        .call(xAxis);
+    
+                    linesvg.selectAll("dot")
+                        .data(linedata)
+                        .enter().append("circle")
+                        .attr("r", 5.5)
+                        .attr("cx", function(d) { return x(d.Year); })
+                        .attr("cy", function(d) { return y(d.Funding); })
+                        .style("fill", function(d) {
+                            if ( d.Year == yearSet ) {
+                                return "#ff0000";
+                            } else {
+                                return "#000000";
+                            }
+                        })
+                        .on("mouseover", function(d) {
+                            format = d3.format("0,000");
+    
+                            linetooltip.transition()
+                                 .duration(200)
+                                 .style("opacity", .9);
+                            linetooltip.html(
+                                    "Year: " + d.Year + "<br/> " +
+                                    "Agency:  " + agencySet + "<br />" + 
+                                    "Locality: " + localityList[localitySet] + "<br />" +
+                                    "Funding: $" + format(d.Funding)
+                                    )
+                                 .style("left", (d3.event.pageX + 10) + "px")
+                                 .style("top", (d3.event.pageY - 28) + "px");
+                        })
+                        .on("mouseout", function(d) {
+                            linetooltip.transition()
+                                 .duration(500)
+                                 .style("opacity", 0);
+                        });
+    
+                    linesvg.append("line")
+                        .attr("x1", x(yearSet))  //<<== change your code here
+                        .attr("y1", 0 - margin.top - margin.bottom)
+                        .attr("x2", x(yearSet))  //<<== and here
+                        .attr("y2", upperchartheight)
+                        .style("stroke-width", 2)
+                        .style("stroke", "red")
+                        .style("fill", "none");
 
-                        linetooltip.transition()
-                             .duration(200)
-                             .style("opacity", .9);
-                        linetooltip.html(
-                                "Year: " + d.Year + "<br/> " +
-                                "Agency:  " + agencySet + "<br />" + 
-                                "Locality: " + localityList[localitySet] + "<br />" +
-                                "Funding: $" + format(d.Funding)
-                                )
-                             .style("left", (d3.event.pageX + 10) + "px")
-                             .style("top", (d3.event.pageY - 28) + "px");
-                    })
-                    .on("mouseout", function(d) {
-                        linetooltip.transition()
-                             .duration(500)
-                             .style("opacity", 0);
-                    });
+                } else {
 
-                linesvg.append("line")
-                    .attr("x1", x(yearSet))  //<<== change your code here
-                    .attr("y1", 0 - margin.top - margin.bottom)
-                    .attr("x2", x(yearSet))  //<<== and here
-                    .attr("y2", upperchartheight)
-                    .style("stroke-width", 2)
-                    .style("stroke", "red")
-                    .style("fill", "none");
+                    errortext = linesvg.append("g")
+                        .append("text")
+                        .style("font-size", "20px")
+                        .attr("transform", "translate(150, 0)")
+                        .attr("x", 0) 
+                        .attr("y", -24) 
+                        .text("");
+
+                    errortext.append("tspan")
+                        .attr("x", 0)
+                        .attr("dy", "1.2em")
+                        .text("No funding trend data for agency " + agencySet);
+
+                    errortext.append("tspan")
+                        .attr("x", 0)
+                        .attr("dy", "1.2em")
+                        .text("for locality " + localityList[localitySet]);
+                    
+                }
 
                 linesvg.append("text")
                     .attr("id", "linelabel")
