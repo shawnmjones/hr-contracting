@@ -47,7 +47,8 @@ def generateCombinations(alldata, year, agency, locality, funding, industry):
     
     # options to draw line chart for single locality, all agencies, all industries
     line4key = year + '~ALL~' + locality + '~ALL'
-    
+   
+    alldata = addfunding(alldata, fullkey, funding)
     alldata = addfunding(alldata, choroplethkey, funding)
     alldata = addfunding(alldata, bar1key, funding)
     alldata = addfunding(alldata, bar2key, funding)

@@ -174,7 +174,7 @@
                 .attr("id", "cpsvg")
                 .attr("width", width)
                 .attr("height", height + margin.top + margin.bottom)
-                .attr("style", "background-color: #eeeeee");
+                .attr("style", "background-color: #ffffff");
 
     var cpsvg = cpsvgonly.append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -333,17 +333,6 @@
                     }
                 }
 
-                /*
-                cpsvgonly.append("rect")
-                    .attr("x", 0)
-                    .attr("y", 0)
-                    .attr("height", height + margin.top + margin.bottom)
-                    .attr("width", width + margin.left + margin.right)
-                    .style("stroke", "#000000")
-                    .style("fill", "none")
-                    .style("stroke-width", 1);
-                */
-
                 cpsvg.append("text")
                     .attr("x", (width / 2) - 50 )
                     .attr("y", 0 - (margin.top / 4) + 20)
@@ -483,25 +472,6 @@
                     x.domain(bardataTop5.map(function(d) { return d.Industry; }));
                     y.domain([ 0, bardataTop5[0].Funding ]);
 
-                    // all of the x-axis labels run into each other
-                    /*
-                    barsvg.append("g")
-                        .attr("class", "x axis")
-                        .attr("transform", "translate(0," + height + ")")
-                        .call(xAxis2);
-                    */
-
-                    /*
-                    barsvgonly.append("rect")
-       			        .attr("x", 0)
-       			        .attr("y", 0)
-                        .attr("height", height + margin.top + margin.bottom)
-                        .attr("width", width + margin.left + margin.right)
-       			        .style("stroke", "#000000")
-       			        .style("fill", "none")
-       			        .style("stroke-width", 1);
-                    */
-
                     barsvg.append("g")
                         .attr("class", "y axis")
                         .call(yAxis2)
@@ -544,20 +514,11 @@
                             d3.select(this).attr("class", "selected");
                         });
 
-/*
-                    barsvg.append("text")
-                        .attr("id", "top5label")
-                        .attr("x", (width / 2) )
-                        .attr("y", 0 - (margin.top / 4) + 20)
-                        .attr("text-anchor", "middle")  
-                        .style("font-size", "20px") 
-                        .text("Top 5 Industries");
-*/
                     bartitle = barsvg.append("g")
                         .append("text")
                         .style("font-size", "20px") 
-                        .attr("x", (width / 2) )
-                        .attr("y", 0 - (margin.top / 4) + 20)
+                        .attr("x", (width / 2) - 50 )
+                        .attr("y", 0 - (margin.top / 4) - 5)
                         .attr("id", "top5label");
 
                     bartitle.append("tspan")
@@ -565,6 +526,7 @@
                         .attr("dy", "1.2em")
                         .text("Top 5 Industries");
 
+                    /*
                     bartitle.append("tspan")
                         .attr("x", "200")
                         .attr("dy", "1.2em")
@@ -579,6 +541,7 @@
                         .attr("x", "200")
                         .attr("dy", "1.2em")
                         .text("for locality " + localitySet);
+                        */
 
                 } else {
 
@@ -625,7 +588,7 @@
                 // select just the data we want
                 for (var i = 0; i < findata.length; i++) {
                     if (findata[i].industry == "ALL") {
-                        if (findata[i].locality == "ALL") {
+                        if (findata[i].locality == localitySet) {
                             if (findata[i].agency == agencySet) {
 
                                 industry = findata[i].industry;
@@ -691,13 +654,6 @@
                     .attr("transform", "translate(0," + upperchartheight + ")")
                     .call(xAxis);
 
-                // Add the Y Axis
-                /*
-                linesvg.append("g")
-                    .attr("class", "y axis")
-                    .call(yAxis);
-                */
-
                 linesvg.selectAll("dot")
                     .data(linedata)
                     .enter().append("circle")
@@ -720,6 +676,7 @@
                         linetooltip.html(
                                 "Year: " + d.Year + "<br/> " +
                                 "Agency:  " + agencySet + "<br />" + 
+                                "Locality: " + localitySet + "<br />" +
                                 "Funding: $" + format(d.Funding)
                                 )
                              .style("left", (d3.event.pageX + 10) + "px")
