@@ -384,104 +384,133 @@
                     }
                 }
 
-                bardata.sort(function(a, b) {
-                    return a.Funding - b.Funding;
-                });
+                console.log(bardata.length);
 
-                bardata.reverse();
+                if (bardata.length > 0) {
 
-                bardataTop5 = new Array();
-
-                if (bardata.length >= 5) {
-                    topN = 5;
-                } else {
-                    topN = bardata.length;
-                }
-
-                for (var i = 0; i < topN; i++) {
-                    bardataTop5[bardataTop5.length] = bardata[i];
-                }
-
-                var x = d3.scale.ordinal()
-                    .rangeRoundBands([0, width - 200], .1);
-                
-                var y = d3.scale.linear()
-                    .range([height, 0]);
-                
-                var xAxis2 = d3.svg.axis()
-                    .scale(x)
-                    .orient("bottom");
-                
-                var commasFormatter = d3.format("$,.0f");
-
-                var yAxis2 = d3.svg.axis()
-                    .scale(y)
-                    .orient("left")
-                    .ticks(10, "$,.2f");
-
-                x.domain(bardataTop5.map(function(d) { return d.Industry; }));
-                y.domain([ 0, bardataTop5[0].Funding ]);
-
-                // all of the x-axis labels run into each other
-                /*
-                barsvg.append("g")
-                    .attr("class", "x axis")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(xAxis2);
-                */
-
-                barsvg.append("g")
-                    .attr("class", "y axis")
-                    .call(yAxis2)
-                    .append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 6)
-                    .attr("dy", ".71em")
-                    .style("text-anchor", "end");
-                    //.text("Funding");
-    
-                barsvg.selectAll(".bar")
-                    .data(bardataTop5)
-                    .enter().append("rect")
-                    .style("fill", function(d) {
-                      return "steelblue";
-                    })
-                    .attr("x", function(d) { return x(d.Industry); })
-                    .attr("width", x.rangeBand())
-                    .attr("y", function(d) { return y(d.Funding); })
-                    .attr("height", function(d) { return height - y(d.Funding); })
-                    .on("mouseover", function(d, i) {
-                        d3.select(this).attr("class", "selected");
-                        bartooltip.transition()
-                                .duration(200)
-                                .style("opacity", .9);
-
-                        format = d3.format("0,000");
-                        displayFunding = format(d.Funding);
-
-                        bartooltip.html(d.Industry + "<br />$" + displayFunding)
-                                .style("left", (d3.event.pageX + 10) + "px")
-                                .style("top", (d3.event.pageY - 150) + "px");
-                    })
-                    .on("mouseout", function(d, i) {
-                        d3.select(this).attr("class", "notselected");
-                        bartooltip.transition()
-                             .duration(500)
-                             .style("opacity", 0);
-                    })
-                    .on("mousemove", function(d, i) {
-                        d3.select(this).attr("class", "selected");
+                    bardata.sort(function(a, b) {
+                        return a.Funding - b.Funding;
                     });
 
-                barsvg.append("g")
-                    .append("text")
-                    .attr("id", "top5label")
-                    .attr("x", (width / 2) )
-                    .attr("y", 0 - (margin.top / 4) + 20)
-                    .attr("text-anchor", "middle")  
-                    .style("font-size", "20px") 
-                    .text("Top 5 Industries");
+                    bardata.reverse();
 
+                    bardataTop5 = new Array();
+
+                    if (bardata.length >= 5) {
+                        topN = 5;
+                    } else {
+                        topN = bardata.length;
+                    }
+
+                    for (var i = 0; i < topN; i++) {
+                        bardataTop5[bardataTop5.length] = bardata[i];
+                    }
+
+                    var x = d3.scale.ordinal()
+                        .rangeRoundBands([0, width - 200], .1);
+                    
+                    var y = d3.scale.linear()
+                        .range([height, 0]);
+                    
+                    var xAxis2 = d3.svg.axis()
+                        .scale(x)
+                        .orient("bottom");
+                    
+                    var commasFormatter = d3.format("$,.0f");
+
+                    var yAxis2 = d3.svg.axis()
+                        .scale(y)
+                        .orient("left")
+                        .ticks(10, "$,.2f");
+
+                    x.domain(bardataTop5.map(function(d) { return d.Industry; }));
+                    y.domain([ 0, bardataTop5[0].Funding ]);
+
+                    // all of the x-axis labels run into each other
+                    /*
+                    barsvg.append("g")
+                        .attr("class", "x axis")
+                        .attr("transform", "translate(0," + height + ")")
+                        .call(xAxis2);
+                    */
+
+                    barsvg.append("g")
+                        .attr("class", "y axis")
+                        .call(yAxis2)
+                        .append("text")
+                        .attr("transform", "rotate(-90)")
+                        .attr("y", 6)
+                        .attr("dy", ".71em")
+                        .style("text-anchor", "end");
+                        //.text("Funding");
+    
+                    barsvg.selectAll(".bar")
+                        .data(bardataTop5)
+                        .enter().append("rect")
+                        .style("fill", function(d) {
+                          return "steelblue";
+                        })
+                        .attr("x", function(d) { return x(d.Industry); })
+                        .attr("width", x.rangeBand())
+                        .attr("y", function(d) { return y(d.Funding); })
+                        .attr("height", function(d) { return height - y(d.Funding); })
+                        .on("mouseover", function(d, i) {
+                            d3.select(this).attr("class", "selected");
+                            bartooltip.transition()
+                                    .duration(200)
+                                    .style("opacity", .9);
+
+                            format = d3.format("0,000");
+                            displayFunding = format(d.Funding);
+
+                            bartooltip.html(d.Industry + "<br />$" + displayFunding)
+                                    .style("left", (d3.event.pageX + 10) + "px")
+                                    .style("top", (d3.event.pageY - 150) + "px");
+                        })
+                        .on("mouseout", function(d, i) {
+                            d3.select(this).attr("class", "notselected");
+                            bartooltip.transition()
+                                 .duration(500)
+                                 .style("opacity", 0);
+                        })
+                        .on("mousemove", function(d, i) {
+                            d3.select(this).attr("class", "selected");
+                        });
+
+                    barsvg.append("g")
+                        .append("text")
+                        .attr("id", "top5label")
+                        .attr("x", (width / 2) )
+                        .attr("y", 0 - (margin.top / 4) + 20)
+                        .attr("text-anchor", "middle")  
+                        .style("font-size", "20px") 
+                        .text("Top 5 Industries");
+
+                } else {
+
+                    errortext = barsvg.append("g")
+                        .append("text")
+                        .style("font-size", "20px")
+                        .attr("x", -50)
+                        .attr("y", 200)
+                        .text("");
+
+                    errortext.append("tspan")
+                        .attr("x", 0)
+                        .attr("dy", "1.2em")
+                        .text("No data for ");
+
+                    errortext.append("tspan")
+                        .attr("x", 0)
+                        .attr("dy", "1.2em")
+                        .text(agencySet);
+
+                    errortext.append("tspan")
+                        .attr("x", 0)
+                        .attr("dy", "1.2em")
+                        .text("for year " + yearSet);
+
+                }
 
             }
 
@@ -511,7 +540,7 @@
                     }
                 }
 
-                console.log(linedata.length);
+                //console.log(linedata.length);
 
                 linedata.sort(function(a, b) {
                     return a.Year - b.Year;
