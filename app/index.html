@@ -64,7 +64,7 @@
     .linetooltip {
         position: absolute;
         width: 220px;
-        height: 60px;
+        height: 74px;
         pointer-events: none;
         background-color: #ffffee;
         font-family: Helvetica, Sans;
@@ -95,6 +95,10 @@
       stroke: steelblue;
     }
 
+    select {
+        font-size: 72px;
+    }
+
 </style>
 </head>
 
@@ -106,17 +110,27 @@
 <script src="libs/d3/d3.v3.min.js"></script>
 <script src="libs/topojson/topojson.v1.min.js"></script>
 <script src="libs/colorbrewer/colorbrewer.js"></script>
+
+<form id="axes">
+<table border="0">
+<tr>
+<td>Year:</td>
+<td><select id="year" class="yearSelector"></select></td>
+</tr>
+<tr>
+<td>Agency:</td>
+<td><select id="agency" class="agencySelector"></select></td>
+</tr>
+</table>
+</form>
+
+<br />
+
 <script>
 
-    var formBlock = d3.select("body").append("p").append("form").attr("id", "axes");
-
-    var yearoptions = formBlock.append("label").text("Year")
-      .append("select").attr("id", "year").attr("class", "yearSelector");
+    var yearoptions = d3.select("#year");
     
-    formBlock.append("br");
-
-    var agencyoptions = formBlock.append("label").text("Agency")
-      .append("select").attr("id", "agency").attr("class", "agencySelector");
+    var agencyoptions = d3.select("#agency");
 
     var projection = d3.geo.albers()
                         .center([0, 36.85])
@@ -306,7 +320,7 @@
                 */
 
                 cpsvg.append("text")
-                    .attr("x", (width / 2) )
+                    .attr("x", (width / 2) - 50 )
                     .attr("y", 0 - (margin.top / 4) + 20)
                     .attr("text-anchor", "middle")  
                     .style("font-size", "20px") 
@@ -471,6 +485,8 @@
                         .attr("y", 6)
                         .attr("dy", ".71em")
                         .style("text-anchor", "end");
+
+                    console.log(x.rangeBand());
     
                     barsvg.selectAll(".bar")
                         .data(bardataTop5)
@@ -479,7 +495,7 @@
                           return "steelblue";
                         })
                         .attr("x", function(d) { return x(d.Industry); })
-                        .attr("width", "63")
+                        .attr("width", "64")
                         .attr("y", function(d) { return y(d.Funding); })
                         .attr("height", function(d) { return height - y(d.Funding); })
                         .on("mouseover", function(d, i) {
