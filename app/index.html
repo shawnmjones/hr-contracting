@@ -121,6 +121,10 @@
 <td>Agency:</td>
 <td><select id="agency" class="agencySelector"></select></td>
 </tr>
+<tr>
+<td>Locality:</td>
+<td><select id="locality" class="localitySelector"></select></td>
+</tr>
 </table>
 </form>
 
@@ -131,6 +135,8 @@
     var yearoptions = d3.select("#year");
     
     var agencyoptions = d3.select("#agency");
+
+    var localityoptions = d3.select("#locality");
 
     var projection = d3.geo.albers()
                         .center([0, 36.85])
@@ -197,6 +203,7 @@
 
     var years = new Array(); 
     var agencies = new Array();
+    var localities = new Array();
 
     d3.json("data/maps/hrCounties-topo.json", function(error1, hr) {
         if (error1) return console.error(error1);
@@ -212,6 +219,7 @@
 
             yearSet = "2014";
             agencySet = "ALL";
+            localitySet = "ALL";
 
             // initialize drop downs
             for (var i = 0; i < findata.length; i++) {
@@ -222,6 +230,10 @@
 
                 if (jQuery.inArray(findata[i].agency, agencies) === -1) {
                     agencies[agencies.length] = findata[i].agency;
+                }
+
+                if (jQuery.inArray(findata[i].locality, localities) === -1) {
+                    localities[localities.length] = findata[i].locality;
                 }
 
             }
@@ -240,6 +252,11 @@
                     .attr("value", agencies[i]).attr("selected");
             }
 
+            for (var i = 0; i < localities.length; i++) {
+                localityoptions.append("option").text(localities[i])
+                    .attr("value", localities[i]).attr("selected");
+            }
+
             var agencyChange = function(d, id) {
                 agencySet = d3.event.target.value; 
                 drawChoropleth();
@@ -254,8 +271,16 @@
                 drawLinechart();
             }
 
+            var localityChange = function(d, id) {
+                localitySet = d3.event.target.value; 
+                drawChoropleth();
+                drawBarchart();
+                drawLinechart();
+            }
+
             d3.select("#agency").on("change", agencyChange);
             d3.select("#year").on("change", yearChange);
+            d3.select("#locality").on("change", localityChange);
 
             drawChoropleth();
             drawBarchart();
@@ -405,7 +430,7 @@
                         if (findata[i].year == yearSet) {
                             if (findata[i].agency == agencySet) {
     
-                                if (findata[i].locality == "ALL") {
+                                if (findata[i].locality == localitySet) {
                                     industry = findata[i].industry;
                                     funding = findata[i].funding;
                                     locality = findata[i].locality;
@@ -486,8 +511,6 @@
                         .attr("dy", ".71em")
                         .style("text-anchor", "end");
 
-                    console.log(x.rangeBand());
-    
                     barsvg.selectAll(".bar")
                         .data(bardataTop5)
                         .enter().append("rect")
@@ -521,6 +544,7 @@
                             d3.select(this).attr("class", "selected");
                         });
 
+/*
                     barsvg.append("text")
                         .attr("id", "top5label")
                         .attr("x", (width / 2) )
@@ -528,6 +552,33 @@
                         .attr("text-anchor", "middle")  
                         .style("font-size", "20px") 
                         .text("Top 5 Industries");
+*/
+                    bartitle = barsvg.append("g")
+                        .append("text")
+                        .style("font-size", "20px") 
+                        .attr("x", (width / 2) )
+                        .attr("y", 0 - (margin.top / 4) + 20)
+                        .attr("id", "top5label");
+
+                    bartitle.append("tspan")
+                        .attr("x", "200")
+                        .attr("dy", "1.2em")
+                        .text("Top 5 Industries");
+
+                    bartitle.append("tspan")
+                        .attr("x", "200")
+                        .attr("dy", "1.2em")
+                        .text("for agency " + agencySet);
+
+                    bartitle.append("tspan")
+                        .attr("x", "200")
+                        .attr("dy", "1.2em")
+                        .text("for year " + yearSet);
+
+                    bartitle.append("tspan")
+                        .attr("x", "200")
+                        .attr("dy", "1.2em")
+                        .text("for locality " + localitySet);
 
                 } else {
 
@@ -546,12 +597,19 @@
                     errortext.append("tspan")
                         .attr("x", 0)
                         .attr("dy", "1.2em")
-                        .text(agencySet);
+                        .text("agency " + agencySet);
 
                     errortext.append("tspan")
                         .attr("x", 0)
                         .attr("dy", "1.2em")
                         .text("for year " + yearSet);
+
+                    errortext.append("tspan")
+                        .attr("x", 0)
+                        .attr("dy", "1.2em")
+                        .text("for locality " + localitySet);
+
+
 
                 }
 
@@ -582,9 +640,6 @@
                         }
                     }
                 }
-
-                console.log(linedata.length);
-                console.log(linedata);
 
                 linedata.sort(function(a, b) {
                     return a.Year - b.Year;
