@@ -123,7 +123,7 @@
                         .rotate([76.5, 0])
                         .parallels([36.5, 37.5])
                         .scale(24000)
-                        .translate([360, 334]);
+                        .translate([305, 334]);
 
     var path = d3.geo.path()
                 .projection(projection);
@@ -152,7 +152,7 @@
 
     var cpsvgonly = lowercharts.append("svg")
                 .attr("id", "cpsvg")
-                .attr("width", width + margin.left + margin.right)
+                .attr("width", width)
                 .attr("height", height + margin.top + margin.bottom)
                 .attr("style", "background-color: #eeeeee");
 
@@ -315,8 +315,8 @@
                 var subunits = cpsvg.selectAll(".subunit")
                     .data(topojson.feature(hr, hr.objects.hrCounties).features)
                     .enter().append("path")
-                    .attr("style", function(d) {
-                            return "fill:" + fetchColor(d.properties.funding);
+                    .style("fill", function(d) {
+                            return fetchColor(d.properties.funding);
                         })
                     .attr("d", path)
                     .on("mouseover", function(d, i) {
@@ -357,7 +357,7 @@
                     .enter().append("g")
                     .attr("class", "legend")
                     .attr("transform", function(d, i) {
-                        return "translate(-369," + (i+2) * 20 + ")"; }
+                        return "translate(-399," + (i+2) * 20 + ")"; }
                         );
 
                 legend.append("rect")
