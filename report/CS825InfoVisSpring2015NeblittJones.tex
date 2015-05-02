@@ -747,6 +747,8 @@ We want to show data for only Hampton Roads.  We also want to display industry i
 
 Remember that our visualization consists of a choropleth, bar chart, and line chart.  Our data for this visualization comes from two sources.   The first source is \url{usaspending.gov}, providing the financial data for the visualization.  The second source is the United States Census geographic data site, from which we needed shapefiles for rendering the choropleth in our visualization.
 
+\subsection{Financial Spending Data}
+
 Data from \url{usaspending.gov} can be downloaded in CSV format using the form shown in Figure \ref{fig:data-download}.  Using this form, one can choose Prime or Sub Award data, the spending type (we wanted only contracts), the agency (we wanted all agency data), the fiscal year (we downloaded a single CSV for each year), the recipient state (we left this at all), place of performance state (we chose Virginia). select a date range (we left this at the default for the year selected), and chose the type of file to download (we chose CSV).
 
 Not all data is available.  As shown in Figure \ref{fig:data-download-large-record-set}, some data combinations produced a download that could not be acquired via the web site.  Fortunately, we were only concerned with contracts where the work was performed in Virginia.  We tried to download data for Prime Award contracts in Virginia, but were told by the site that 0 records existed (in stark contrast to the results of their own visualizations), so we concentrated on Sub-Award data instead.
@@ -775,8 +777,22 @@ We downloaded the data for years 2006 - 2014 on April 1, 2015.  Being relegated 
 
 The CSV files consisted of 101 fields, providing information on each contract awarded.  From these files, and also using the provided data dictionary, we identified five useful fields for our endeavor.  Table \ref{tab:data-mapping} lists these fields and how we mapped them during our data processing.  We use the {\tt subaward\_principle\_place\_city} field to indicate the locality in which the work took place.  We use the {\tt subaward\_principle\_naics\_desc} field for information on which industry the contract applies to.  We use the {\tt subaward\_major\_agency\_name} field to identify the agency each contract applies to.  Contracts are complex, and have many pieces.  We had 3 agency fields to choose from, but {\tt subaward\_major\_agency\_name} indicates funding for the particular subcontractor performing work in the region, not necessarily the agency that controls the overall contract across the United States.  We use {\tt subaward\_amount} to indicate the amount of funding for the contract.  We chose this rather than the prime award amount because we are only interested in funding that ends up in Hampton Roads.  We use {\tt subaward\_fiscal\_year} to determine which data ends up in our visualization for a given year.  Most of the time, this field matched the download, but there were a few cases where it failed to, meaning that the subaward was dispersed in a separate year than the contract was awarded.  We were concerned about when the money ended up in Hampton Roads, so we use this field to ensure the data is correct.
 
-Once we had acquired the CSV files, we then needed to clean the data and ensure that it only contained records for Hampton Roads.  For this step we used OpenRefine, as shown in Figure \ref{fig:openRefine-2014-data}.  OpenRefine allowed us to correct the many spelling mistakes present for each entry in the {\tt subaward\_principle\_place\_city} field.  It also allowed us to standardize capitalization for the different localities.  Oddly, as one can see in Figure \ref{fig:openRefine-2014-data}, the data contained addresses in this city field.  We had to use resources, such as Google Maps, to identify which localities these addresses corresponded to.  Thanks to this step, we were able to include more data about contracting in the region that would have been left out if we had just honored the existing city entries.  Also, the file contained cities that do not exist in Virginia, such as San Diego, even though we requested a data download for this state.  To resolve these inconsistencies, we used the {\tt subaward\_principle\_place\_zip} field to determine if the ZIP code is in Virginia, and, more importantly in Hampton Roads.
+Once we had acquired the CSV files, we then needed to clean the data and ensure that it only contained records for Hampton Roads.  For this step we used OpenRefine, as shown in Figure \ref{fig:openRefine-2014-data}.  OpenRefine allowed us to correct the many spelling mistakes present for each entry in the {\tt subaward\_principle\_place\_city} field.  It also allowed us to standardize capitalization for the different localities.  Oddly, as one can see in Figure \ref{fig:openRefine-2014-data}, the data contained addresses in this city field.  We had to use resources, such as Google Maps, to identify which localities these addresses corresponded to.  Thanks to this step, we were able to include more data about contracting in the region that would have been left out if we had just honored the existing city entries.  Also, the file contained cities that do not exist in Virginia, such as San Diego, even though we requested a data download only containing records for Virginia.  To resolve these inconsistencies, we used the {\tt subaward\_principle\_place\_zip} field to determine if the ZIP code is in Virginia, and, more importantly in Hampton Roads.  The {\tt subaward\_federal\_agency\_name} field appeared to have a controlled vocabulary, but we converted the agency names so that they would support consistency throughout the visualization; for example, ``DEPT OF DEFENSE'' was changed ``Dept of Defense, but also listed was ``COMMERCE, DEPARTMENT OF'', which we changed to ``Dept of Commerce'' for consistency of nomenclature for sorting and viewing.  We left the controlled vocabulary field of {\tt subaward\_principle\_naics\_city} alone, seeing as we required no consistency from its values for our bar chart.
 
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/openRefine-2014-data.png}
+	\caption{Data from \protect\url{usaspending.gov} loaded into OpenRefine (formerly Google Refine)}
+	\label{fig:openRefine-2014-data}	
+
+	\vspace{3em}
+
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/data-flow.png}
+	\caption{Data flow to produce CSV and JSON map data for visualization}
+	\label{fig:data-flow}	
+\end{figure}
 
 \begin{table}[t]
 \centering
@@ -790,24 +806,58 @@ subaward\_federal\_agency\_name          & agency                           \\
 subaward\_amount                         & funding                          \\
 subaward\_fiscal\_year                   & year                                 \\ \hline
 \end{tabular}
-
 \caption{Mapping of fields from \protect\url{usaspending.gov} into fields useful for our visualization}
 \label{tab:data-mapping}
-
 \end{table}
 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.5\textwidth]{images/openRefine-2014-data.png}
-	\caption{Data from \protect\url{usaspending.gov} loaded into OpenRefine (formerly Google Refine)}
-	\label{fig:openRefine-2014-data}	
+Once we had cleaned CSV files for each year, we then used a Python script, as shown in Figure  to compute all possible combinations of Agency, Year, and Locality, summing up the funding amounts for each.  The Python script calculates every combination of choice, and uses the value ``ALL'' in a field to assist in generating the data for each part of our visualization.  Table \ref{tab:use-of-all} shows how the use of ``ALL'' in individual fields results in aggregated values and which part of the visualization to which they pertain.
 
-	\centering
-	\includegraphics[width=0.5\textwidth]{images/data-flow.png}
-	\caption{Data flow to produce CSV and JSON map data for visualization}
-	\label{fig:data-flow}	
-\end{figure}
+\begin{table}[t]
+\centering
+\begin{tabular}{l | l | l}
+\textbf{``ALL''} & \textbf{Available User} & \textbf{Part} \\
+\textbf{in field} & \textbf{Selections} & \textbf{of Vis} \\
+\hline
+none & locality, agency, & Industry Bar Chart \\
+& year & for specific industries \\
+\hline
+industry & locality, agency, & Choropleth for user \\
+& year & selection, including values \\
+& & for all industries;  \\
+& & also Sparkline \\
+& & for user selection \\
+\hline
+locality & agency, year & Industry Bar Chart \\
+& & for all localities \\
+\hline
+agency & locality, year & Industry Bar Chart \\
+& & for all agencies \\
+\hline
+agency, locality & year & Industry Bar Chart \\
+& & for all localities and agencies \\
+\hline
+agency, locality, & year & Sparkline \\
+industry &  & for all localities and agencies \\
+\hline
+locality, industry & year, agency & Sparkline \\
+& & for all localities, \\
+& & but selected agency \\
+\hline
+agency, industry & year, locality & Sparkline \\
+& & for single locality, \\
+& & all agencies \\
+\hline
+\end{tabular}
 
+\caption{Use of the ``ALL'' value in various fields allows our vis to aggregate data for different combinations of user selections}
+\label{tab:use-of-all}
+
+\end{table} 
+
+
+
+
+\subsection{Geographic Data}
 
 \section{Our Visualization}
 
