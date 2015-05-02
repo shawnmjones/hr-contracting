@@ -153,7 +153,7 @@
 % *** GRAPHICS RELATED PACKAGES ***
 %
 \ifCLASSINFOpdf
-  % \usepackage[pdftex]{graphicx}
+  \usepackage[pdftex]{graphicx}
   % declare the path(s) where your graphic files are
   % \graphicspath{{../pdf/}{../jpeg/}}
   % and their extensions so you won't have to specify these with
@@ -335,7 +335,6 @@
 % figure. The latest version and documentation can be found at:
 % http://www.ctan.org/tex-archive/macros/latex/base/
 
-
 %\usepackage{stfloats}
 % stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
 % the ability to do double column floats at the bottom of the page as well
@@ -407,7 +406,7 @@
 
 % *** PDF, URL AND HYPERLINK PACKAGES ***
 %
-%\usepackage{url}
+\usepackage{url}
 % url.sty was written by Donald Arseneau. It provides better support for
 % handling and breaking URLs. url.sty is already installed on most LaTeX
 % systems. The latest version and documentation can be obtained at:
@@ -672,220 +671,133 @@ Computer Society, IEEEtran, journal, \LaTeX, paper, template.
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
-
 \ifCLASSOPTIONcompsoc
 \IEEEraisesectionheading{\section{Introduction}\label{sec:introduction}}
 \else
 \section{Introduction}
 \label{sec:introduction}
 \fi
-Pellentesque aliquet nulla ac lorem sollicitudin sagittis. Sed ac luctus arcu. Phasellus at sollicitudin ex, id feugiat turpis. In vestibulum, eros eget sodales semper, ipsum neque consectetur mi, non egestas ligula augue in orci. Praesent ut sollicitudin elit, in sodales odio. Phasellus quis convallis urna. Curabitur tortor sapien, condimentum at erat a, fringilla condimentum ex. Integer eleifend ipsum nec orci iaculis mollis. Duis feugiat leo ut risus tincidunt accumsan. Mauris tempus fermentum lectus, at faucibus turpis consequat vitae. Donec molestie eu orci et varius. Quisque vel efficitur eros.
 
-Maecenas consectetur euismod dui, sit amet scelerisque tellus. Sed rhoncus purus ut elit feugiat, sed porta metus porttitor. Sed gravida lacus urna, id eleifend lectus interdum vel. Morbi blandit, massa eu consectetur vulputate, nisl nunc sollicitudin lacus, gravida fermentum ex tellus non odio. Phasellus scelerisque pellentesque placerat. Aliquam egestas nec magna non bibendum. Pellentesque in pharetra velit. Duis at mollis est. Nulla ut diam viverra, posuere magna eu, pulvinar odio. Fusce quam dolor, porta in commodo sed, elementum in nulla. Suspendisse posuere enim eget mauris tempus, non facilisis leo molestie. Nullam mattis, tellus sagittis vehicula accumsan, magna lectus fringilla tellus, eget varius ex mi ut mi. Praesent molestie, ipsum quis ultrices pulvinar, sem sapien finibus ante, nec efficitur sem augue in dui. Nunc ac viverra mi. Integer dignissim ipsum vitae erat scelerisque venenatis. Donec iaculis lacus turpis, a pellentesque magna fermentum id.
+Understanding the influx of federal contracting money for a region is important for municipal planning.  Existing data provided by \url{usaspending.gov} is provided in a tabular CSV format.  This data can be mined to find information for specific localities individually.  A visualization comparing these localities to one another is important for understanding how funding affects a given region.  We present our visualization in Figure \ref{fig:default-main-vis}, allowing the user to compare the funding for each locality as well as comparing the top 5 industries for each agency or locality depending on which options the user chooses for agency, year, or locality.  A trend line shows the trend in funding based on the user's choices.
 
-Suspendisse semper vestibulum tincidunt. Curabitur nec fermentum dui, sit amet posuere ante. Cras porta sapien ut aliquet ultricies. Praesent euismod eros ut odio euismod ullamcorper. Etiam libero mi, euismod vitae aliquam tincidunt, pellentesque quis enim. Fusce aliquet risus id nibh tincidunt, non scelerisque leo placerat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque egestas dapibus ornare. Vivamus ante mauris, mollis at odio ac, blandit consectetur justo. Suspendisse pharetra odio a ullamcorper posuere. Pellentesque vestibulum quam id dictum malesuada. Vestibulum luctus faucibus vulputate. Maecenas metus ex, tincidunt a tempus vitae, vehicula sed ante. Duis rutrum lectus ligula, non porttitor velit pellentesque non.
-% Computer Society journal (but not conference!) papers do something unusual
-% with the very first section heading (almost always called "Introduction").
-% They place it ABOVE the main text! IEEEtran.cls does not automatically do
-% this for you, but you can achieve this effect with the provided
-% \IEEEraisesectionheading{} command. Note the need to keep any \label that
-% is to refer to the section immediately after \section in the above as
-% \IEEEraisesectionheading puts \section within a raised box.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.45\textwidth]{images/teaser-screenie.png}
+	\caption{The United States Federal Contracting in Hampton Roads visualization in its default state}
+	\label{fig:default-main-vis}
 
+	\vspace{3em}
 
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/HRFlagMapslide.png}
+	\caption{Hampton Roads, as defined by the HRPDC}
+	\label{fig:hrpdc-flag}
+\end{figure}
 
+One such region is Hampton Roads in the United States state of Virginia.  As defined by the Hampton Roads Planning District Commission (HRPDC), Hampton Roads consists of the City of Norfolk, the City of Virginia Beach, the City of Chesapeake, the City of Portsmouth, the City of Suffolk, the City of Franklin, Isle of Wight County, Southampton County, Town of Smithfield, Surry County, James City County, the City of Williamsburg, Gloucester County, York County, the City of Newport News, the City of Hampton, and the City of Poquoson.  Figure \ref{fig:hrpdc-flag} shows the map as defined by the HRPDC.  We use this definition of Hampton Roads in our visualization as well.
 
-% The very first letter is a 2 line initial drop letter followed
-% by the rest of the first word in caps (small caps for compsoc).
-% 
-% form to use if the first word consists of a single letter:
-% \IEEEPARstart{A}{demo} file is ....
-% 
-% form to use if you need the single drop letter followed by
-% normal text (unknown if ever used by IEEE):
-% \IEEEPARstart{A}{}demo file is ....
-% 
-% Some journals put the first two words in caps:
-% \IEEEPARstart{T}{his demo} file is ....
-% 
-% Here we have the typical use of a "T" for an initial drop letter
-% and "HIS" in caps to complete the first word.
-%\IEEEPARstart{T}{his} demo file is intended to serve as a ``starter file''
-%for IEEE Computer Society journal papers produced under \LaTeX\ using
-%IEEEtran.cls version 1.8a and later.
-% You must have at least 2 lines in the paragraph with the drop letter
-% (should never be an issue)
-%I wish you the best of success.
+Existing visualizations of this data focus on the whole United States, or summarize data for types of funding.  We seek to create a visualization that is more specific to federal contracting in the Hampton Roads region, such that the Hampton Roads Planning District Commission can utilize the visualization for decision making.  We seek to help answer questions like the following:
+\begin{itemize}
+\item What industries are being funded in Hampton Roads?
+\item What is the trend of funding in Hampton Roads (e.g. increasing, decreasing, stable)?
+\item What knowledge areas should employees have to support work now and in the future in Hampton Roads?
+\item What localities are receiving funding from which agencies?
+\item How much funding does each locality receive from which agency?
+\item Which agencies are providing funding to which industries in the region?
+\end{itemize}
 
-%\hfill mds
- 
-% \hfill September 17, 2014
+Using this visualization, we hope that the HRPDC can help guide decisions on such topics as funding for education and enticement for companies looking to move into the area. 
 
+Others, however, have tried to visualize this data before.
 
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/existing-awards-by-year.png}
+	\caption{USA Spending.gov visualization showing a summary of awards by year for the entire United States}
+	\label{fig:existing-awards-by-year}
 
-% An example of a floating figure using the graphicx package.
-% Note that \label must occur AFTER (or within) \caption.
-% For figures, \caption should occur after the \includegraphics.
-% Note that IEEEtran v1.7 and later has special internal code that
-% is designed to preserve the operation of \label within \caption
-% even when the captionsoff option is in effect. However, because
-% of issues like this, it may be the safest practice to put all your
-% \label just after \caption rather than within \caption{}.
-%
-% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
-% option should be used if it is desired that the figures are to be
-% displayed while in draft mode.
-%
-%\begin{figure}[!t]
-%\centering
-%\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure}
+	\vspace{3em}
 
-% Note that IEEE typically puts floats only at the top, even when this
-% results in a large percentage of a column being occupied by floats.
-% However, the Computer Society has been known to put floats at the bottom.
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/existing-awards-by-state.png}
+	\caption{USA Spending.gov visualization showing a summary of awards by state for the entire United States}
+	\label{fig:existing-awards-by-state}
 
+	\vspace{3em}
 
-% An example of a double column floating figure using two subfigures.
-% (The subfig.sty package must be loaded for this to work.)
-% The subfigure \label commands are set within each subfloat command,
-% and the \label for the overall figure must come after \caption.
-% \hfil is used as a separator to get equal spacing.
-% Watch out that the combined width of all the subfigures on a 
-% line do not exceed the text width or a line break will occur.
-%
-%\begin{figure*}[!t]
-%\centering
-%\subfloat[Case I]{\includegraphics[width=2.5in]{box}%
-%\label{fig_first_case}}
-%\hfil
-%\subfloat[Case II]{\includegraphics[width=2.5in]{box}%
-%\label{fig_second_case}}
-%\caption{Simulation results for the network.}
-%\label{fig_sim}
-%\end{figure*}
-%
-% Note that often IEEE papers with subfigures do not employ subfigure
-% captions (using the optional argument to \subfloat[]), but instead will
-% reference/describe all of them (a), (b), etc., within the main caption.
-% Be aware that for subfig.sty to generate the (a), (b), etc., subfigure
-% labels, the optional argument to \subfloat must be present. If a
-% subcaption is not desired, just leave its contents blank,
-% e.g., \subfloat[].
-
-
-% An example of a floating table. Note that, for IEEE style tables, the
-% \caption command should come BEFORE the table and, given that table
-% captions serve much like titles, are usually capitalized except for words
-% such as a, an, and, as, at, but, by, for, in, nor, of, on, or, the, to
-% and up, which are usually not capitalized unless they are the first or
-% last word of the caption. Table text will default to \footnotesize as
-% IEEE normally uses this smaller font for tables.
-% The \label must come after \caption as always.
-%
-%\begin{table}[!t]
-%% increase table row spacing, adjust to taste
-%\renewcommand{\arraystretch}{1.3}
-% if using array.sty, it might be a good idea to tweak the value of
-% \extrarowheight as needed to properly center the text within the cells
-%\caption{An Example of a Table}
-%\label{table_example}
-%\centering
-%% Some packages, such as MDW tools, offer better commands for making tables
-%% than the plain LaTeX2e tabular which is used here.
-%\begin{tabular}{|c||c|}
-%\hline
-%One & Two\\
-%\hline
-%Three & Four\\
-%\hline
-%\end{tabular}
-%\end{table}
-
-
-% Note that the IEEE does not put floats in the very first column
-% - or typically anywhere on the first page for that matter. Also,
-% in-text middle ("here") positioning is typically not used, but it
-% is allowed and encouraged for Computer Society conferences (but
-% not Computer Society journals). Most IEEE journals/conferences use
-% top floats exclusively. 
-% Note that, LaTeX2e, unlike IEEE journals/conferences, places
-% footnotes above bottom floats. This can be corrected via the
-% \fnbelowfloat command of the stfloats package.
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/existing-awards-by-locality.png}
+	\caption{USA Spending.gov visualization showing a summary of awards by locality for the entire United States}
+	\label{fig:existing-awards-by-locality}
+\end{figure}
 
 \section{Related Work}
-The related work goes here.
 
-Praesent consequat pulvinar elementum. Morbi laoreet eros in mattis commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus in lacus at tortor suscipit elementum. Fusce at mi vel mi bibendum auctor vitae sit amet libero. Integer viverra sagittis dui, eget viverra mi tempor sed. Morbi nisl eros, sollicitudin ut dui ut, varius aliquet risus. Sed posuere sollicitudin augue vel blandit. Vivamus ac dui lectus. Donec semper, arcu eget tincidunt placerat, lorem nulla tincidunt libero, sed aliquet dolor odio ac arcu. Etiam nec justo odio. Aliquam ligula nisl, mattis eget libero non, pharetra euismod orci. Donec lacinia consequat urna, non iaculis mi pharetra ut.
+The \url{usaspending.gov} site does contain several ways to visualize the existing data.  These visualizations suffer from being too general for our needs, but we highlight them here in order to discuss for what they might be useful, and all of the ways in which they fail to meet our needs.  Each visualization appears on a different web page with separate controls, hence they are displayed separately.
 
-Etiam volutpat tortor non nulla accumsan, quis faucibus nisi venenatis. Curabitur nisl augue, fermentum eu ante et, sodales dignissim libero. Mauris convallis porttitor tincidunt. Aliquam erat volutpat. Nulla euismod risus lorem, eget porttitor sem scelerisque ac. Donec in auctor purus. Nullam varius viverra eros at condimentum. Sed et condimentum sem. Quisque vestibulum mi at ligula luctus, at rutrum velit luctus. Ut pretium malesuada varius. Mauris et quam diam. Sed ante justo, malesuada et maximus id, tincidunt non quam.
+Figure \ref{fig:existing-awards-by-year} shows the summary of awards for the current year, broken down into contracts, grants, loans, and other financial assistance.  It shows a bar chart, with each bar demonstrating the amount of money awarded for each category in the given year.  A user can generate a tooltip by hovering the mouse pointer over each bar.  This tooltip contains the value awarded for each award type, along with the number of transactions.  This visualization aggregates data for the whole United States, and does not break down the data for each locality in Hampton Roads.  We are also interested in contracting dollars, of which we are not interested.  It is also fixed to the current year, rather than allowing the user to select a given year to see the data.
 
-\section{The Real Work}
-The real work goes here.
+Figure \ref{fig:existing-awards-by-state} shows the summary of awards for each state for the current year.  It is a choropleth coloring each state based on the amount of money awarded to each state.  Just like the bar chart, a user can generate a tooltip by hovering over each state.  This tooltip contains the value awarded to each state, along with the number of transactions.  This visualization provides data for a given state, such as Virginia, getting us closer to Hampton Roads, but it aggregates data of all types of awards; we are only interested in contracting data.  Just like the bar chart, it is fixed to the current year, not satisfying our need to see data from different years.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi massa ligula, iaculis ut nisl at, venenatis ultricies tellus. Vestibulum id ultrices mi, sed convallis arcu. Donec finibus eu odio tincidunt rhoncus. Proin fringilla aliquet turpis, et egestas felis interdum quis. Sed et ligula dictum, venenatis dui ac, tempor dui. Quisque in sapien sollicitudin, lobortis lectus pellentesque, faucibus purus. Suspendisse iaculis massa id tellus consequat venenatis.
+Figure \ref{fig:existing-awards-by-locality} is a more interactive visualization, providing data more in line with what we are looking for.  A user can use several drop down selectors to select the fiscal year, state, county, agency, ZIP code, congressional district, award type, amounth, and even restrict the the visualization to a specific recipient.  
 
-Pellentesque aliquet nulla ac lorem sollicitudin sagittis. Sed ac luctus arcu. Phasellus at sollicitudin ex, id feugiat turpis. In vestibulum, eros eget sodales semper, ipsum neque consectetur mi, non egestas ligula augue in orci. Praesent ut sollicitudin elit, in sodales odio. Phasellus quis convallis urna. Curabitur tortor sapien, condimentum at erat a, fringilla condimentum ex. Integer eleifend ipsum nec orci iaculis mollis. Duis feugiat leo ut risus tincidunt accumsan. Mauris tempus fermentum lectus, at faucibus turpis consequat vitae. Donec molestie eu orci et varius. Quisque vel efficitur eros.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/data-download.png}
+	\caption{For for downloading data from \protect\url{usaspending.gov}}
+	\label{fig:data-download}
+	
+	\vspace{3em}
+	
+	\includegraphics[width=0.5\textwidth]{images/data-download-large-record-set.png}
+	\caption{Downloading large data sets is impossible via the web form at \protect\url{usaspending.gov}}
+	\label{fig:data-download-large-record-set}
+\end{figure}
 
-Maecenas consectetur euismod dui, sit amet scelerisque tellus. Sed rhoncus purus ut elit feugiat, sed porta metus porttitor. Sed gravida lacus urna, id eleifend lectus interdum vel. Morbi blandit, massa eu consectetur vulputate, nisl nunc sollicitudin lacus, gravida fermentum ex tellus non odio. Phasellus scelerisque pellentesque placerat. Aliquam egestas nec magna non bibendum. Pellentesque in pharetra velit. Duis at mollis est. Nulla ut diam viverra, posuere magna eu, pulvinar odio. Fusce quam dolor, porta in commodo sed, elementum in nulla. Suspendisse posuere enim eget mauris tempus, non facilisis leo molestie. Nullam mattis, tellus sagittis vehicula accumsan, magna lectus fringilla tellus, eget varius ex mi ut mi. Praesent molestie, ipsum quis ultrices pulvinar, sem sapien finibus ante, nec efficitur sem augue in dui. Nunc ac viverra mi. Integer dignissim ipsum vitae erat scelerisque venenatis. Donec iaculis lacus turpis, a pellentesque magna fermentum id.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/openRefine-2014-data.png}
+	\caption{Data from \protect\url{usaspending.gov} loaded into OpenRefine (formerly Google Refine)}
+	\label{fig:openRefine-2014-data}	
+\end{figure}
 
-Suspendisse semper vestibulum tincidunt. Curabitur nec fermentum dui, sit amet posuere ante. Cras porta sapien ut aliquet ultricies. Praesent euismod eros ut odio euismod ullamcorper. Etiam libero mi, euismod vitae aliquam tincidunt, pellentesque quis enim. Fusce aliquet risus id nibh tincidunt, non scelerisque leo placerat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque egestas dapibus ornare. Vivamus ante mauris, mollis at odio ac, blandit consectetur justo. Suspendisse pharetra odio a ullamcorper posuere. Pellentesque vestibulum quam id dictum malesuada. Vestibulum luctus faucibus vulputate. Maecenas metus ex, tincidunt a tempus vitae, vehicula sed ante. Duis rutrum lectus ligula, non porttitor velit pellentesque non.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/numrecords-barplot.png}
+	\caption{Number of Sub-Award records available from \protect\url{usaspending.gov} for each year}
+	\label{fig:numrecords-barplot}	
+\end{figure}
 
-Donec egestas quam sed eros fringilla vulputate. Maecenas nec consectetur eros, eget venenatis sem. Integer fermentum turpis ut vehicula sollicitudin. Aenean fermentum consequat lectus, nec faucibus est commodo eget. Etiam in enim dapibus, vehicula ligula quis, semper quam. Proin tristique a nisi in lacinia. Cras maximus rhoncus euismod. Ut eget mi nec mi malesuada ultrices in a libero. In rhoncus risus urna, eget pulvinar neque fermentum vitae. Sed a mi odio. Nam porttitor augue nec magna scelerisque, vitae vehicula ipsum varius. Phasellus vel bibendum nulla. Ut sed cursus massa, quis ultrices neque. Fusce et porttitor neque.
+\begin{table}[t]
+\centering
+\begin{tabular}{l | l}
+\hline
+\textbf{Original field name} & \textbf{Field Name} \\
+\textbf{from usaspending.gov} & \textbf{for our visualization} \\ \hline
+subaward\_principal\_place\_city         & locality                         \\
+subaward\_principal\_naics\_desc         & industry                         \\
+subaward\_federal\_agency\_name          & agency                           \\
+subaward\_amount                         & funding                          \\
+subaward\_fiscal\_year                   &                                  \\ \hline
+\end{tabular}
 
-Praesent consequat pulvinar elementum. Morbi laoreet eros in mattis commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus in lacus at tortor suscipit elementum. Fusce at mi vel mi bibendum auctor vitae sit amet libero. Integer viverra sagittis dui, eget viverra mi tempor sed. Morbi nisl eros, sollicitudin ut dui ut, varius aliquet risus. Sed posuere sollicitudin augue vel blandit. Vivamus ac dui lectus. Donec semper, arcu eget tincidunt placerat, lorem nulla tincidunt libero, sed aliquet dolor odio ac arcu. Etiam nec justo odio. Aliquam ligula nisl, mattis eget libero non, pharetra euismod orci. Donec lacinia consequat urna, non iaculis mi pharetra ut.
+\caption{Mapping of fields from \protect\url{usaspending.gov} into fields useful for our visualization}
+\label{tab:data-mapping}
 
-Etiam volutpat tortor non nulla accumsan, quis faucibus nisi venenatis. Curabitur nisl augue, fermentum eu ante et, sodales dignissim libero. Mauris convallis porttitor tincidunt. Aliquam erat volutpat. Nulla euismod risus lorem, eget porttitor sem scelerisque ac. Donec in auctor purus. Nullam varius viverra eros at condimentum. Sed et condimentum sem. Quisque vestibulum mi at ligula luctus, at rutrum velit luctus. Ut pretium malesuada varius. Mauris et quam diam. Sed ante justo, malesuada et maximus id, tincidunt non quam.
+\end{table}
 
-\subsection{Subsection Heading Here}
-Subsection text here.
+\section{Data Processing}
 
-Praesent consequat pulvinar elementum. Morbi laoreet eros in mattis commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus in lacus at tortor suscipit elementum. Fusce at mi vel mi bibendum auctor vitae sit amet libero. Integer viverra sagittis dui, eget viverra mi tempor sed. Morbi nisl eros, sollicitudin ut dui ut, varius aliquet risus. Sed posuere sollicitudin augue vel blandit. Vivamus ac dui lectus. Donec semper, arcu eget tincidunt placerat, lorem nulla tincidunt libero, sed aliquet dolor odio ac arcu. Etiam nec justo odio. Aliquam ligula nisl, mattis eget libero non, pharetra euismod orci. Donec lacinia consequat urna, non iaculis mi pharetra ut.
+Data from \url{usaspending.gov} can be downloaded in CSV format using the form shown in Figure \ref{fig:data-download}.  Not all data is available.  As shown in Figure \ref{fig:data-download-large-record-set}, some data combinations produced a download that could not be acquired via the web site.  Fortunately, we were only concerned with contracts where the work was performed in Virginia.  We tried to download data for Prime Award contracts in Virginia, but were told by the site that 0 records existed, so we concentrated on Sub-Award data instead.
 
-Etiam volutpat tortor non nulla accumsan, quis faucibus nisi venenatis. Curabitur nisl augue, fermentum eu ante et, sodales dignissim libero. Mauris convallis porttitor tincidunt. Aliquam erat volutpat. Nulla euismod risus lorem, eget porttitor sem scelerisque ac. Donec in auctor purus. Nullam varius viverra eros at condimentum. Sed et condimentum sem. Quisque vestibulum mi at ligula luctus, at rutrum velit luctus. Ut pretium malesuada varius. Mauris et quam diam. Sed ante justo, malesuada et maximus id, tincidunt non quam.
+We downloaded the data for years 2006 - 2014 on April 1, 2015.  Being relegated to Sub-Award data, we attempted to download records for all of the years available.  We found that the number of records decreases precipitously, as shown in Figure \ref{fig:numrecords-barplot}.  For example, we found it hard to believe that the entire state of Virginia only had 2 contracts awarded in 2006.  These outliers forced us to consider any data from 2006 - 2010 as suspect, so we limited the year range of the data to only 2010 - 2014, ensuring that our visualization would feature the most accurate data we could find.
 
-% needed in second column of first page if using \IEEEpubid
-%\IEEEpubidadjcol
-
-\subsubsection{Subsubsection Heading Here}
-Subsubsection text here.
-
-Praesent consequat pulvinar elementum. Morbi laoreet eros in mattis commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus in lacus at tortor suscipit elementum. Fusce at mi vel mi bibendum auctor vitae sit amet libero. Integer viverra sagittis dui, eget viverra mi tempor sed. Morbi nisl eros, sollicitudin ut dui ut, varius aliquet risus. Sed posuere sollicitudin augue vel blandit. Vivamus ac dui lectus. Donec semper, arcu eget tincidunt placerat, lorem nulla tincidunt libero, sed aliquet dolor odio ac arcu. Etiam nec justo odio. Aliquam ligula nisl, mattis eget libero non, pharetra euismod orci. Donec lacinia consequat urna, non iaculis mi pharetra ut.
-
-Etiam volutpat tortor non nulla accumsan, quis faucibus nisi venenatis. Curabitur nisl augue, fermentum eu ante et, sodales dignissim libero. Mauris convallis porttitor tincidunt. Aliquam erat volutpat. Nulla euismod risus lorem, eget porttitor sem scelerisque ac. Donec in auctor purus. Nullam varius viverra eros at condimentum. Sed et condimentum sem. Quisque vestibulum mi at ligula luctus, at rutrum velit luctus. Ut pretium malesuada varius. Mauris et quam diam. Sed ante justo, malesuada et maximus id, tincidunt non quam.
+\section{Our Visualization}
 
 \section{Conclusion}
-The conclusion goes here.
 
-Praesent consequat pulvinar elementum. Morbi laoreet eros in mattis commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus in lacus at tortor suscipit elementum. Fusce at mi vel mi bibendum auctor vitae sit amet libero. Integer viverra sagittis dui, eget viverra mi tempor sed. Morbi nisl eros, sollicitudin ut dui ut, varius aliquet risus. Sed posuere sollicitudin augue vel blandit. Vivamus ac dui lectus. Donec semper, arcu eget tincidunt placerat, lorem nulla tincidunt libero, sed aliquet dolor odio ac arcu. Etiam nec justo odio. Aliquam ligula nisl, mattis eget libero non, pharetra euismod orci. Donec lacinia consequat urna, non iaculis mi pharetra ut.
-
-Etiam volutpat tortor non nulla accumsan, quis faucibus nisi venenatis. Curabitur nisl augue, fermentum eu ante et, sodales dignissim libero. Mauris convallis porttitor tincidunt. Aliquam erat volutpat. Nulla euismod risus lorem, eget porttitor sem scelerisque ac. Donec in auctor purus. Nullam varius viverra eros at condimentum. Sed et condimentum sem. Quisque vestibulum mi at ligula luctus, at rutrum velit luctus. Ut pretium malesuada varius. Mauris et quam diam. Sed ante justo, malesuada et maximus id, tincidunt non quam.
 
 \section{Final Thoughts}
-Final thoughts go here.
-
-Praesent consequat pulvinar elementum. Morbi laoreet eros in mattis commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus in lacus at tortor suscipit elementum. Fusce at mi vel mi bibendum auctor vitae sit amet libero. Integer viverra sagittis dui, eget viverra mi tempor sed. Morbi nisl eros, sollicitudin ut dui ut, varius aliquet risus. Sed posuere sollicitudin augue vel blandit. Vivamus ac dui lectus. Donec semper, arcu eget tincidunt placerat, lorem nulla tincidunt libero, sed aliquet dolor odio ac arcu. Etiam nec justo odio. Aliquam ligula nisl, mattis eget libero non, pharetra euismod orci. Donec lacinia consequat urna, non iaculis mi pharetra ut.
-
-Etiam volutpat tortor non nulla accumsan, quis faucibus nisi venenatis. Curabitur nisl augue, fermentum eu ante et, sodales dignissim libero. Mauris convallis porttitor tincidunt. Aliquam erat volutpat. Nulla euismod risus lorem, eget porttitor sem scelerisque ac. Donec in auctor purus. Nullam varius viverra eros at condimentum. Sed et condimentum sem. Quisque vestibulum mi at ligula luctus, at rutrum velit luctus. Ut pretium malesuada varius. Mauris et quam diam. Sed ante justo, malesuada et maximus id, tincidunt non quam.
-
-% if have a single appendix:
-%\appendix[Proof of the Zonklar Equations]
-% or
-%\appendix  % for no appendix heading
-% do not use \section anymore after \appendix, only \section*
-% is possibly needed
-
-% use appendices with more than one appendix
-% then use \section to start each appendix
-% you must declare a \section before using any
-% \subsection or using \label (\appendices by itself
-% starts a section numbered zero.)
-%
 
 
 \appendices
