@@ -109,7 +109,7 @@
 % have to be run twice to clear warning/error messages.
 
 
-
+%\usepackage{float}
 
 
 
@@ -678,7 +678,7 @@ Computer Society, IEEEtran, journal, \LaTeX, paper, template.
 \label{sec:introduction}
 \fi
 
-Understanding the influx of federal contracting money for a region is important for municipal planning.  Existing data provided by \url{usaspending.gov} is provided in a tabular CSV format.  This data can be mined to find information for specific localities individually.  A visualization comparing these localities to one another is important for understanding how funding affects a given region.  We present our visualization in Figure \ref{fig:default-main-vis}, allowing the user to compare the funding for each locality as well as comparing the top 5 industries for each agency or locality depending on which options the user chooses for agency, year, or locality.  A trend line shows the trend in funding based on the user's choices.
+Understanding the influx of federal contracting money for a region is important for municipal planning.  The site \url{usaspending.gov} is the official United States Government web site providing data on federal monetary awards.  This data can be mined to find information for specific localities individually.  A visualization comparing these localities to one another is important for understanding how funding affects a given region.  We present our visualization in Figure \ref{fig:default-main-vis}, allowing the user to compare the funding for each locality in Hampton Roads as well as comparing the top 5 industries for each agency or locality depending on which options the user chooses for agency, year, or locality.  A choropleth on the bottom right allows the user to compare funding values for each locality.  A bar chart on the bottom left allows a user to compare funding values for each industry.  A trend line shows the trend in funding.  The user may interact with the visualization by altering the year, agency and locality to acquire more specific information.
 
 \begin{figure}[t]
 	\centering
@@ -689,12 +689,12 @@ Understanding the influx of federal contracting money for a region is important 
 	\vspace{3em}
 
 	\centering
-	\includegraphics[width=0.5\textwidth]{images/HRFlagMapslide.png}
+	\includegraphics[width=0.4\textwidth]{images/HRFlagMapslide.png}
 	\caption{Hampton Roads, as defined by the HRPDC}
 	\label{fig:hrpdc-flag}
 \end{figure}
 
-One such region is Hampton Roads in the United States state of Virginia.  As defined by the Hampton Roads Planning District Commission (HRPDC), Hampton Roads consists of the City of Norfolk, the City of Virginia Beach, the City of Chesapeake, the City of Portsmouth, the City of Suffolk, the City of Franklin, Isle of Wight County, Southampton County, Town of Smithfield, Surry County, James City County, the City of Williamsburg, Gloucester County, York County, the City of Newport News, the City of Hampton, and the City of Poquoson.  Figure \ref{fig:hrpdc-flag} shows the map as defined by the HRPDC.  We use this definition of Hampton Roads in our visualization as well.
+Our region is Hampton Roads in the United States state of Virginia.  As defined by the Hampton Roads Planning District Commission (HRPDC), Hampton Roads consists of the City of Norfolk, the City of Virginia Beach, the City of Chesapeake, the City of Portsmouth, the City of Suffolk, the City of Franklin, Isle of Wight County, Southampton County, Town of Smithfield, Surry County, James City County, the City of Williamsburg, Gloucester County, York County, the City of Newport News, the City of Hampton, and the City of Poquoson.  Figure \ref{fig:hrpdc-flag} shows the map as defined by the HRPDC.  We use this definition of Hampton Roads in our visualization as well.
 
 Existing visualizations of this data focus on the whole United States, or summarize data for types of funding.  We seek to create a visualization that is more specific to federal contracting in the Hampton Roads region, such that the Hampton Roads Planning District Commission can utilize the visualization for decision making.  We seek to help answer questions like the following:
 \begin{itemize}
@@ -710,27 +710,6 @@ Using this visualization, we hope that the HRPDC can help guide decisions on suc
 
 Others, however, have tried to visualize this data before.
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.5\textwidth]{images/existing-awards-by-year.png}
-	\caption{USA Spending.gov visualization showing a summary of awards by year for the entire United States}
-	\label{fig:existing-awards-by-year}
-
-	\vspace{3em}
-
-	\centering
-	\includegraphics[width=0.5\textwidth]{images/existing-awards-by-state.png}
-	\caption{USA Spending.gov visualization showing a summary of awards by state for the entire United States}
-	\label{fig:existing-awards-by-state}
-
-	\vspace{3em}
-
-	\centering
-	\includegraphics[width=0.5\textwidth]{images/existing-awards-by-locality.png}
-	\caption{USA Spending.gov visualization showing a summary of awards by locality for the entire United States}
-	\label{fig:existing-awards-by-locality}
-\end{figure}
-
 \section{Related Work}
 
 The \url{usaspending.gov} site does contain several ways to visualize the existing data.  These visualizations suffer from being too general for our needs, but we highlight them here in order to discuss for what they might be useful, and all of the ways in which they fail to meet our needs.  Each visualization appears on a different web page with separate controls, hence they are displayed separately.
@@ -739,34 +718,65 @@ Figure \ref{fig:existing-awards-by-year} shows the summary of awards for the cur
 
 Figure \ref{fig:existing-awards-by-state} shows the summary of awards for each state for the current year.  It is a choropleth coloring each state based on the amount of money awarded to each state.  Just like the bar chart, a user can generate a tooltip by hovering over each state.  This tooltip contains the value awarded to each state, along with the number of transactions.  This visualization provides data for a given state, such as Virginia, getting us closer to Hampton Roads, but it aggregates data of all types of awards; we are only interested in contracting data.  Just like the bar chart, it is fixed to the current year, not satisfying our need to see data from different years.
 
-Figure \ref{fig:existing-awards-by-locality} is a more interactive visualization, providing data more in line with what we are looking for.  A user can use several drop down selectors to select the fiscal year, state, county, agency, ZIP code, congressional district, award type, amounth, and even restrict the the visualization to a specific recipient.  
-
-\begin{figure}[t]
+\begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.5\textwidth]{images/data-download.png}
+	\includegraphics[width=0.5\textwidth]{images/existing-awards-by-year.png}
+	\caption{USA Spending.gov visualization showing a summary of awards by year for the entire United States}
+	\label{fig:existing-awards-by-year}
+
+	\vspace{5em}
+
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/existing-awards-by-state.png}
+	\caption{USA Spending.gov visualization showing a summary of awards by state for the entire United States}
+	\label{fig:existing-awards-by-state}
+
+	\vspace{5em}
+
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/existing-awards-by-locality.png}
+	\caption{USA Spending.gov visualization showing a summary of awards by locality for the entire United States}
+	\label{fig:existing-awards-by-locality}
+\end{figure}
+
+Figure \ref{fig:existing-awards-by-locality} is a more interactive visualization, providing data more in line with what we are looking for.  A user can use several drop down selectors to select the fiscal year, state, county, agency, ZIP code, congressional district, award type, amounth, and even restrict the the visualization to a specific recipient.  It provides information for the place of performance selected by the user, in this case the City of Virginia Beach.  It displays the contracts awarded to the right of the map, allowing the user to view each contract awarded.  The map provides squares pointing out where each contracting company is located.  A tooltip can be generated by the user by clicking on each square.  The tooltips contain information on the awarding agency, location, amount, and type of award.  This satisfies some of our needs, but does not contrast the different regions of Hampton Roads.  It also only displays information about prime award data, leaving out subcontractors, which are an important part of the work performed.  We also see no trend data, nor do we get industry data for comparison.
+
+We want to show data for only Hampton Roads.  We also want to display industry information to address the questions we wished to answer with our visualization.  We want to allow the user to compare funding to individual localities based on agency and year.  Finally, we wanted to show trends across all years based on agency and locality.  The existing visualizations at \url{usaspending.gov} do not meet these needs.
+
+\section{Data Processing}
+
+Remember that our visualization consists of a choropleth, bar chart, and line chart.  Our data for this visualization comes from two sources.   The first source is \url{usaspending.gov}, providing the financial data for the visualization.  The second source is the United States Census geographic data site, from which we needed shapefiles for rendering the choropleth in our visualization.
+
+Data from \url{usaspending.gov} can be downloaded in CSV format using the form shown in Figure \ref{fig:data-download}.  Using this form, one can choose Prime or Sub Award data, the spending type (we wanted only contracts), the agency (we wanted all agency data), the fiscal year (we downloaded a single CSV for each year), the recipient state (we left this at all), place of performance state (we chose Virginia). select a date range (we left this at the default for the year selected), and chose the type of file to download (we chose CSV).
+
+Not all data is available.  As shown in Figure \ref{fig:data-download-large-record-set}, some data combinations produced a download that could not be acquired via the web site.  Fortunately, we were only concerned with contracts where the work was performed in Virginia.  We tried to download data for Prime Award contracts in Virginia, but were told by the site that 0 records existed (in stark contrast to the results of their own visualizations), so we concentrated on Sub-Award data instead.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.4\textwidth]{images/data-download.png}
 	\caption{For for downloading data from \protect\url{usaspending.gov}}
 	\label{fig:data-download}
 	
 	\vspace{3em}
 	
-	\includegraphics[width=0.5\textwidth]{images/data-download-large-record-set.png}
+	\includegraphics[width=0.4\textwidth]{images/data-download-large-record-set.png}
 	\caption{Downloading large data sets is impossible via the web form at \protect\url{usaspending.gov}}
 	\label{fig:data-download-large-record-set}
-\end{figure}
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.5\textwidth]{images/openRefine-2014-data.png}
-	\caption{Data from \protect\url{usaspending.gov} loaded into OpenRefine (formerly Google Refine)}
-	\label{fig:openRefine-2014-data}	
-\end{figure}
+	\vspace{3em}
 
-\begin{figure}[t]
 	\centering
-	\includegraphics[width=0.5\textwidth]{images/numrecords-barplot.png}
-	\caption{Number of Sub-Award records available from \protect\url{usaspending.gov} for each year}
+	\includegraphics[width=0.4\textwidth]{images/numrecords-barplot.png}
+	\caption{Number of Sub-Award records available from \protect\url{usaspending.gov} for Virginia for each year; note the precipitous falloff prior to 2011}
 	\label{fig:numrecords-barplot}	
 \end{figure}
+
+We downloaded the data for years 2006 - 2014 on April 1, 2015.  Being relegated to Sub-Award data, we attempted to download records for all of the years available.  We found that the number of records decreases precipitously, as shown in Figure \ref{fig:numrecords-barplot}.  For example, we found it hard to believe that the entire state of Virginia only had 2 contracts awarded in 2006.  These outliers forced us to consider any data from 2006 - 2010 as suspect, so we limited the year range of the data to only 2010 - 2014, ensuring that our visualization would feature the most accurate data we could find.
+
+The CSV files consisted of 101 fields, providing information on each contract awarded.  From these files, and also using the provided data dictionary, we identified five useful fields for our endeavor.  Table \ref{tab:data-mapping} lists these fields and how we mapped them during our data processing.  We use the {\tt subaward\_principle\_place\_city} field to indicate the locality in which the work took place.  We use the {\tt subaward\_principle\_naics\_desc} field for information on which industry the contract applies to.  We use the {\tt subaward\_major\_agency\_name} field to identify the agency each contract applies to.  Contracts are complex, and have many pieces.  We had 3 agency fields to choose from, but {\tt subaward\_major\_agency\_name} indicates funding for the particular subcontractor performing work in the region, not necessarily the agency that controls the overall contract across the United States.  We use {\tt subaward\_amount} to indicate the amount of funding for the contract.  We chose this rather than the prime award amount because we are only interested in funding that ends up in Hampton Roads.  We use {\tt subaward\_fiscal\_year} to determine which data ends up in our visualization for a given year.  Most of the time, this field matched the download, but there were a few cases where it failed to, meaning that the subaward was dispersed in a separate year than the contract was awarded.  We were concerned about when the money ended up in Hampton Roads, so we use this field to ensure the data is correct.
+
+Once we had acquired the CSV files, we then needed to clean the data and ensure that it only contained records for Hampton Roads.  For this step we used OpenRefine, as shown in Figure \ref{fig:openRefine-2014-data}.  OpenRefine allowed us to correct the many spelling mistakes present for each entry in the {\tt subaward\_principle\_place\_city} field.  It also allowed us to standardize capitalization for the different localities.  Oddly, as one can see in Figure \ref{fig:openRefine-2014-data}, the data contained addresses in this city field.  We had to use resources, such as Google Maps, to identify which localities these addresses corresponded to.  Thanks to this step, we were able to include more data about contracting in the region that would have been left out if we had just honored the existing city entries.  Also, the file contained cities that do not exist in Virginia, such as San Diego, even though we requested a data download for this state.  To resolve these inconsistencies, we used the {\tt subaward\_principle\_place\_zip} field to determine if the ZIP code is in Virginia, and, more importantly in Hampton Roads.
+
 
 \begin{table}[t]
 \centering
@@ -778,7 +788,7 @@ subaward\_principal\_place\_city         & locality                         \\
 subaward\_principal\_naics\_desc         & industry                         \\
 subaward\_federal\_agency\_name          & agency                           \\
 subaward\_amount                         & funding                          \\
-subaward\_fiscal\_year                   &                                  \\ \hline
+subaward\_fiscal\_year                   & year                                 \\ \hline
 \end{tabular}
 
 \caption{Mapping of fields from \protect\url{usaspending.gov} into fields useful for our visualization}
@@ -786,11 +796,18 @@ subaward\_fiscal\_year                   &                                  \\ \
 
 \end{table}
 
-\section{Data Processing}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/openRefine-2014-data.png}
+	\caption{Data from \protect\url{usaspending.gov} loaded into OpenRefine (formerly Google Refine)}
+	\label{fig:openRefine-2014-data}	
 
-Data from \url{usaspending.gov} can be downloaded in CSV format using the form shown in Figure \ref{fig:data-download}.  Not all data is available.  As shown in Figure \ref{fig:data-download-large-record-set}, some data combinations produced a download that could not be acquired via the web site.  Fortunately, we were only concerned with contracts where the work was performed in Virginia.  We tried to download data for Prime Award contracts in Virginia, but were told by the site that 0 records existed, so we concentrated on Sub-Award data instead.
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/data-flow.png}
+	\caption{Data flow to produce CSV and JSON map data for visualization}
+	\label{fig:data-flow}	
+\end{figure}
 
-We downloaded the data for years 2006 - 2014 on April 1, 2015.  Being relegated to Sub-Award data, we attempted to download records for all of the years available.  We found that the number of records decreases precipitously, as shown in Figure \ref{fig:numrecords-barplot}.  For example, we found it hard to believe that the entire state of Virginia only had 2 contracts awarded in 2006.  These outliers forced us to consider any data from 2006 - 2010 as suspect, so we limited the year range of the data to only 2010 - 2014, ensuring that our visualization would feature the most accurate data we could find.
 
 \section{Our Visualization}
 
