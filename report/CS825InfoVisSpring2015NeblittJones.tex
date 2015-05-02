@@ -810,7 +810,7 @@ subaward\_fiscal\_year                   & year                                 
 \label{tab:data-mapping}
 \end{table}
 
-Once we had cleaned CSV files for each year, we then used a Python script, as shown in Figure  to compute all possible combinations of Agency, Year, and Locality, summing up the funding amounts for each.  The Python script calculates every combination of choice, and uses the value ``ALL'' in a field to assist in generating the data for each part of our visualization.  Table \ref{tab:use-of-all} shows how the use of ``ALL'' in individual fields results in aggregated values and which part of the visualization to which they pertain.
+Once we had cleaned CSV files for each year, we then used a Python script, as shown in Figure  to compute all possible combinations of Agency, Year, and Locality, summing up the funding amounts for each.  The Python script calculates every combination of choice, and uses the value ``ALL'' in a field to assist in generating the data for each part of our visualization.  Table \ref{tab:use-of-all} shows how the use of ``ALL'' in individual fields results in aggregated values and which part of the visualization to which they pertain.  Any entry in our financial data file not containing ``ALL'' as a value in a particular field represents a filtering of data, allowing the user to get to specific funding values for year, agency, locality, and industry.
 
 \begin{table}[t]
 \centering
