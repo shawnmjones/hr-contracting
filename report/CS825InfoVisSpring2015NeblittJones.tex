@@ -807,6 +807,10 @@ Once we had acquired the CSV files, we then needed to clean the data and ensure 
 
 \begin{table}[t]
 \centering
+
+\caption{Mapping of fields from \protect\url{usaspending.gov} into fields useful for our visualization}
+\label{tab:data-mapping}
+
 \begin{tabular}{l | l}
 \hline
 \textbf{Original field name} & \textbf{Field Name} \\
@@ -817,8 +821,7 @@ subaward\_federal\_agency\_name          & agency                           \\
 subaward\_amount                         & funding                          \\
 subaward\_fiscal\_year                   & year                                 \\ \hline
 \end{tabular}
-\caption{Mapping of fields from \protect\url{usaspending.gov} into fields useful for our visualization}
-\label{tab:data-mapping}
+
 \end{table}
 
 Once we had cleaned CSV files for each year, we then used a Python script, as shown in Figure  to compute all possible combinations of Agency, Year, and Locality, summing up the funding amounts for each.  The Python script calculates every combination of choice, and uses the value ``ALL'' in a field to assist in generating the data for each part of our visualization.  Table \ref{tab:use-of-all} shows how the use of ``ALL'' in individual fields results in aggregated values and which part of the visualization to which they pertain.  Any entry in our financial data file not containing ``ALL'' as a value in a particular field represents a filtering of data, allowing the user to get to specific funding values for year, agency, locality, and industry.
@@ -826,7 +829,12 @@ Once we had cleaned CSV files for each year, we then used a Python script, as sh
 As shown in Figure \ref{fig:data-flow}, these steps produced half of the data needed for the visualization.  For the other half, we needed to extract and use geographic data from the US Census.
 
 \begin{table}[t]
+
 \centering
+
+\caption{Use of the ``ALL'' value in various fields allows our vis to aggregate data for different combinations of user selections}
+\label{tab:use-of-all}
+
 \begin{tabular}{l | l | l}
 \textbf{``ALL''} & \textbf{Available User} & \textbf{Part} \\
 \textbf{in field} & \textbf{Selections} & \textbf{of Vis} \\
@@ -862,8 +870,6 @@ agency, industry & year, locality & Sparkline \\
 \hline
 \end{tabular}
 
-\caption{Use of the ``ALL'' value in various fields allows our vis to aggregate data for different combinations of user selections}
-\label{tab:use-of-all}
 
 \end{table} 
 
@@ -911,20 +917,10 @@ topojson -o hrCounties-topo.json --id-property COUNTYFP --properties name=NAME -
 
 Once we had the geographic data, we could complete the left part of the data flow shown in Figure \ref{fig:data-flow}.  With the financial data and geographic data, we could then move on to producing the visualization.
 
-\section{Our Visualization}
-
-\subsection{System Description}
-Our visualization contains three idioms - choropleth, sparkline, and bar chart. The sparkline shows the trend of spending across the four years. The bar chart shows a top five of industries to which the funding is directed. The choropleth shows the following:
-
-\begin{itemize}
-\item Hampton Roads localities (cities and counties as defined by the Hampton Roads Planning District Commission
-\item Single hue (greens) to show funding levels - darker greens (higher funding) to lightest green (lowest to negative funding)
-\end{itemize}
-
-Table \ref{tab:user-actions} shows the possible user actions. ``Sticky'' means that the visualization stays the same on that attribute regardless of user selections.
-
-\begin{table}[t]
+\begin{table*}[t]
 \centering
+\caption{Overview of User Actions}
+\label{tab:user-actions}
 \begin{tabular}{l | l | l | l}
 \textbf{} & \textbf{Choropleth} & \textbf{Bar Chart (Top 5)} & \textbf{Line Chart}\\
 \hline
@@ -945,12 +941,55 @@ User selects year C & Year: C & Year: C & Year: All (sticky) \\
 & Locality: All (sticky) & Locality: Selected & Locality: Selected\\
 \hline
 \end{tabular}
+\end{table*}
 
-\caption{Overview of User Actions}
-\label{tab:user-actions}
-
+\begin{table}[t]
+\centering
+\caption{Attributes and Attribute Types}
+\label{tab:attribute-type}
+\begin{tabular}{l | l}
+\textbf{Attribute} & \textbf{Attribute Type} \\
+\hline
+agency & categorical\\
+\hline
+funding & ordered quantitative - sequential \\
+\hline
+industry & categorical \\
+\hline
+locality & categorical \\
+\hline
+year & ordered ordinal \\
+\hline
+\end{tabular}
 \end{table} 
 
+\begin{table}[t]
+\centering
+\caption{Why: Targets}
+\label{tab:why-targets}
+\begin{tabular}{l | l}
+\textbf{Target} & \textbf{Result} \\
+\hline
+all data & trends, outliers\\
+\hline
+spatial data & shape \\
+\hline
+attributes & many: correlation, many: similarity \\
+\hline
+\end{tabular}
+\end{table} 
+
+\section{Our Visualization}
+
+\subsection{System Description}
+Our visualization contains three idioms - choropleth, sparkline, and bar chart. The sparkline shows the trend of spending across the four years. The bar chart shows a top five of industries to which the funding is directed. The choropleth shows the following:
+
+\begin{itemize}
+\item Hampton Roads localities (cities and counties as defined by the Hampton Roads Planning District Commission
+\item Single hue (greens) to show funding levels - darker greens (higher funding) to lightest green (lowest to negative funding)
+\end{itemize}
+
+Table \ref{tab:user-actions} shows the possible user actions. ``Sticky'' means that the visualization stays the same on that attribute regardless of user selections.
 
 \subsection{What-Why-How Framework}
 
@@ -964,29 +1003,6 @@ Our visualization uses data types attributes, item, and positions. We used datas
 
 Our attributes are categorical, quantitative ordered, and sequential. Refer to Table \ref{tab:attribute-type} to see a breakdown of the attributes mapped to attribute type. Categorical is the most common along with to different types of ordered data.
 
-\begin{table}[t]
-\centering
-\begin{tabular}{l | l}
-\textbf{Attribute} & \textbf{Attribute Type} \\
-\hline
-agency & categorical\\
-\hline
-funding & ordered quantitative - sequential \\
-\hline
-industry & categorical \\
-\hline
-locality & categorical \\
-\hline
-year & ordered ordinal \\
-
-\hline
-\end{tabular}
-
-\caption{Attributes and Attribute Types}
-\label{tab:attribute-type}
-
-\end{table} 
-
 \subsubsection{Why: Actions}
 
 Of the three types of actions (analyze, query, search) our visualization utilizes analyze and query. It supports the analyze-consume sub-functions of discover, present and enjoy. The viewer can use it to discover or enjoy contracting information about the Hampton Roads area. After either of these actions, the viewer can use the visualization to present viewpoints and suggest a course of action based on the visualized data.
@@ -996,24 +1012,6 @@ A viewer can also query the visualization. It supports identification, compariso
 \subsubsection{Why: Targets}
 
 Table \ref{tab:why-targets} outlines the targets in our visualization. Viewers can see trends and outliers in our visualization. For example, Gloucester has a negative funding amount and shipbuilding is usually but not always one of the top industries.
-
-\begin{table}[t]
-\centering
-\begin{tabular}{l | l}
-\textbf{Target} & \textbf{Result} \\
-\hline
-all data & trends, outliers\\
-\hline
-spatial data & shape \\
-\hline
-attributes & many: correlation, many: similarity \\
-\hline
-\end{tabular}
-
-\caption{Why: Targets}
-\label{tab:why-targets}
-
-\end{table} 
 
 \subsubsection{How: Encode}
 
