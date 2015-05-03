@@ -905,6 +905,59 @@ topojson -o hrCounties-topo.json --id-property COUNTYFP --properties name=NAME -
 Once we had the geographic data, we could complete the left part of the data flow shown in Figure \ref{fig:data-flow}.  With the financial data and geographic data, we could then move on to producing the visualization.
 
 \section{Our Visualization}
+\subsection{What-Why-How Framework}
+Our visualization uses a sparkline, choropleth and a bar chart.
+
+\subsubsection{What: Datasets}
+
+Data Types
+Attribute - "specific property that can be measured, observed, or logged. For example, attributes could be salary, price, number of sales, protein expression levels, or temperature."
+
+Item - "individual entity that is discrete, such as a row in a simple table or a node in a network. For example, items may be people, stocks, coffee, shops, genes, or cities."
+
+Item = contract; Attribute = locality, funding, year
+
+Position - "spatial data, providing a location in two-dimensional (2D) or three-dimensional (3D) space. For example, a position might be a latitude-longitude pair describing a location on the Earth's surface or three numbers specifying a location within the region of space measured by a medical scanner."
+
+Position - Our choropleth encodes based on attributes (locality, funding, year, agency) even though the geometry dataset types at its most basic level has positions and items.
+
+Dataset Type
+
+Tables - tables of rows and columns; row = item; column = attribute; the pair, a cell, contains a value.
+
+Geometry - uses shapefiles with position information and encodes based on item attributes.
+
+Our dataset availability is static. The data is not clean enough to support dynamic availability.
+
+\subsubsection{What: Attributes}
+
+Our attributes are categorical, quantitative ordered, and sequential.
+
+Categorical
+\begin{itemize}
+\item industry
+\item locality
+\item agency
+\end{itemize}
+
+Ordered Ordinal
+\begin{itemize}
+\item year
+\end{itemize}
+
+Ordered Quantitative - Sequential
+\begin{itemize}
+\item funding
+\end{itemize}
+
+\subsubsection{Why: Actions}
+
+\subsubsection{Why: Targets}
+
+\subsubsection{How: Encode}
+
+\subsubsection{How: Manipulate/Facet/Reduce}
+
 
 \section{Conclusion}
 
