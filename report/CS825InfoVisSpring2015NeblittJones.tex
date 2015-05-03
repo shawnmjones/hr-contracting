@@ -910,49 +910,62 @@ Our visualization uses a sparkline, choropleth and a bar chart.
 
 \subsubsection{What: Datasets}
 
-Data Types
-Attribute - "specific property that can be measured, observed, or logged. For example, attributes could be salary, price, number of sales, protein expression levels, or temperature."
-
-Item - "individual entity that is discrete, such as a row in a simple table or a node in a network. For example, items may be people, stocks, coffee, shops, genes, or cities."
-
-Item = contract; Attribute = locality, funding, year
-
-Position - "spatial data, providing a location in two-dimensional (2D) or three-dimensional (3D) space. For example, a position might be a latitude-longitude pair describing a location on the Earth's surface or three numbers specifying a location within the region of space measured by a medical scanner."
-
-Position - Our choropleth encodes based on attributes (locality, funding, year, agency) even though the geometry dataset types at its most basic level has positions and items.
-
-Dataset Type
-
-Tables - tables of rows and columns; row = item; column = attribute; the pair, a cell, contains a value.
-
-Geometry - uses shapefiles with position information and encodes based on item attributes.
-
-Our dataset availability is static. The data is not clean enough to support dynamic availability.
+Our visualization uses data types attributes, item, and positions. We use to dataset types - table and geometry. For the table our row represents a contract (item) and the columns represent attributes (e.g. locality, funding, year) of the contract. The choropleth uses the geometry dataset type with the shapefiles providing spatial position information, but also utilizes the table information (i.e. attributes) for encoding. The unclean nature of the data provided by USASpending.gov requires manual pre-processing before it can be used by our visualization. Therefore the dataset availability is static instead of dynamic.
 
 \subsubsection{What: Attributes}
 
-Our attributes are categorical, quantitative ordered, and sequential.
+Our attributes are categorical, quantitative ordered, and sequential. Refer to Table \ref{tab:attribute-type} to see a breakdown of the attributes mapped to attribute type. Categorical is the most common along with to different types of ordered data.
 
-Categorical
-\begin{itemize}
-\item industry
-\item locality
-\item agency
-\end{itemize}
+\begin{table}[t]
+\centering
+\begin{tabular}{l | l}
+\textbf{Attribute} & \textbf{Attribute Type} \\
+\hline
+agency & categorical\\
+\hline
+funding & ordered quantitative - sequential \\
+\hline
+industry & categorical \\
+\hline
+locality & categorical \\
+\hline
+year & ordered ordinal \\
 
-Ordered Ordinal
-\begin{itemize}
-\item year
-\end{itemize}
+\hline
+\end{tabular}
 
-Ordered Quantitative - Sequential
-\begin{itemize}
-\item funding
-\end{itemize}
+\caption{Attributes and Attribute Types}
+\label{tab:attribute-type}
+
+\end{table} 
 
 \subsubsection{Why: Actions}
 
+Of the three types of actions (analyze, query, search) our visualization utilizes analyze and query. It supports the analyze-consume sub-functions of discover, present and enjoy. The viewer can use it to discover or enjoy contracting information about the Hampton Roads area. After either of these actions, the viewer can use the visualization to present viewpoints and suggest a course of action based on the visualized data.
+
+A viewer can also query the visualization. It supports identification, comparison and summarizing actions. The sparkline allows the viewer to see funding trends. The bar chart and choropleth supports comparing year to year. The view can also identify a single piece of information based on choices in the dropdown (e.g. top industry in 2012 in Virginia Beach).
+
 \subsubsection{Why: Targets}
+
+Table \ref{tab:why-targets} outlines the targets in our visualization. Viewers can see trends and outliers in our visualization. For example, Gloucester has a negative funding amount and shipbuilding is usually but not always one of the top industries.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{l | l}
+\textbf{Target} & \textbf{Result} \\
+\hline
+all data & trends, outliers\\
+\hline
+spatial data & shape \\
+\hline
+attributes & many: correlation, many: similarity \\
+\hline
+\end{tabular}
+
+\caption{Why: Targets}
+\label{tab:why-targets}
+
+\end{table} 
 
 \subsubsection{How: Encode}
 
