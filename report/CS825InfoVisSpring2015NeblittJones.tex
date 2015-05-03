@@ -1015,6 +1015,20 @@ Table \ref{tab:why-targets} outlines the targets in our visualization. Viewers c
 
 \subsubsection{How: Encode}
 
+We use both map and arrange with encoding. The choropleth uses luminance with ColorBrewer scheme 5-class Greens\cite{colorbrewer}. It is colorblind safe, but not print friendly nor photocopy safe. The choropleth has the following five categories of funding:
+
+\begin{itemize}
+\item $\le \$0$ (\#edf8e9)
+\item $\$0 - \$500,000$ (\#bae4b3)
+\item $\$500,000 - \$2,000,000$ (\#74c476)
+\item $\$2,000,000 - \$8,000,000$ (\#31a354)
+\item $> \$8,000,000$ )(\#006d2c)
+\end{itemize}
+
+The bar chart relies on size (i.e. length of the bar) for encoding therefore the color is uniform.
+
+The sparkline is using angle to indicate funding trend. Is the line moving up, down or staying level?. The dot is red to indicate the selected year. All years for which we have data are shown, but the colored dot provides the user feedback about the year chosen since it does change other parts of the visualization.
+
 \subsubsection{How: Manipulate/Facet/Reduce}
 
 
