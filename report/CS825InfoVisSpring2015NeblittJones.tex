@@ -111,7 +111,7 @@
 
 %\usepackage{float}
 
-
+\usepackage{listings}
 
 % *** CITATION PACKAGES ***
 %
@@ -640,9 +640,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacinia, elit et p
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
-\begin{IEEEkeywords}
-Computer Society, IEEEtran, journal, \LaTeX, paper, template.
-\end{IEEEkeywords}}
+%\begin{IEEEkeywords}
+%Computer Society, IEEEtran, journal, \LaTeX, paper, template.
+%\end{IEEEkeywords}
+}
+
 
 
 % make the title area
@@ -681,12 +683,11 @@ Computer Society, IEEEtran, journal, \LaTeX, paper, template.
 Understanding the influx of federal contracting money for a region is important for municipal planning.  The site \url{usaspending.gov} is the official United States Government web site providing data on federal monetary awards.  This data can be mined to find information for specific localities individually.  A visualization comparing these localities to one another is important for understanding how funding affects a given region.  We present our visualization in Figure \ref{fig:default-main-vis}, allowing the user to compare the funding for each locality in Hampton Roads as well as comparing the top 5 industries for each agency or locality depending on which options the user chooses for agency, year, or locality.  A choropleth on the bottom right allows the user to compare funding values for each locality.  A bar chart on the bottom left allows a user to compare funding values for each industry.  A trend line shows the trend in funding.  The user may interact with the visualization by altering the year, agency and locality to acquire more specific information.
 
 \begin{figure}[t]
+
 	\centering
 	\includegraphics[width=0.45\textwidth]{images/teaser-screenie.png}
 	\caption{The United States Federal Contracting in Hampton Roads visualization in its default state}
 	\label{fig:default-main-vis}
-
-	\vspace{3em}
 
 	\centering
 	\includegraphics[width=0.4\textwidth]{images/HRFlagMapslide.png}
@@ -779,7 +780,6 @@ The CSV files consisted of 101 fields, providing information on each contract aw
 
 Once we had acquired the CSV files, we then needed to clean the data and ensure that it only contained records for Hampton Roads.  For this step we used OpenRefine, as shown in Figure \ref{fig:openRefine-2014-data}.  OpenRefine allowed us to correct the many spelling mistakes present for each entry in the {\tt subaward\_principle\_place\_city} field.  It also allowed us to standardize capitalization for the different localities.  Oddly, as one can see in Figure \ref{fig:openRefine-2014-data}, the data contained addresses in this city field.  We had to use resources, such as Google Maps, to identify which localities these addresses corresponded to.  Thanks to this step, we were able to include more data about contracting in the region that would have been left out if we had just honored the existing city entries.  Also, the file contained cities that do not exist in Virginia, such as San Diego, even though we requested a data download only containing records for Virginia.  To resolve these inconsistencies, we used the {\tt subaward\_principle\_place\_zip} field to determine if the ZIP code is in Virginia, and, more importantly in Hampton Roads.  The {\tt subaward\_federal\_agency\_name} field appeared to have a controlled vocabulary, but we converted the agency names so that they would support consistency throughout the visualization; for example, ``DEPT OF DEFENSE'' was changed ``Dept of Defense, but also listed was ``COMMERCE, DEPARTMENT OF'', which we changed to ``Dept of Commerce'' for consistency of nomenclature for sorting and viewing.  We left the controlled vocabulary field of {\tt subaward\_principle\_naics\_city} alone, seeing as we required no consistency from its values for our bar chart.
 
-
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.5\textwidth]{images/openRefine-2014-data.png}
@@ -812,7 +812,7 @@ subaward\_fiscal\_year                   & year                                 
 
 Once we had cleaned CSV files for each year, we then used a Python script, as shown in Figure  to compute all possible combinations of Agency, Year, and Locality, summing up the funding amounts for each.  The Python script calculates every combination of choice, and uses the value ``ALL'' in a field to assist in generating the data for each part of our visualization.  Table \ref{tab:use-of-all} shows how the use of ``ALL'' in individual fields results in aggregated values and which part of the visualization to which they pertain.  Any entry in our financial data file not containing ``ALL'' as a value in a particular field represents a filtering of data, allowing the user to get to specific funding values for year, agency, locality, and industry.
 
-These steps ensured that the financial data was in the proper format for the visualization.
+As shown in Figure \ref{fig:data-flow}, these steps produced half of the data needed for the visualization.  For the other half, we needed to extract and use geographic data from the US Census.
 
 \begin{table}[t]
 \centering
@@ -858,23 +858,33 @@ agency, industry & year, locality & Sparkline \\
 
 \subsection{Geographic Data}
 
+The HRPDC web site provides a series of maps for the Hampton Roads area, allowing the user to view information, such as the Regional Transportation Network, and the location of federal facilities.  They even provide a map of all of the localities in Hampton Roads.  Unfortunately, all of these maps are provided in Portable Document Format, which, though well suited for printing, is not suitable for consumption by other tools, such as Tableau, or D3.
+
+To produce a map for use with D3, we required the data to be in the TopoJSON format.  TopoJSON can be produced from GeoJSON format using the {\tt topojson} JavaScript command line tool available via the npm package manager.  GeoJSON can be produced using the {\tt ogr2ogr} tool provided by the Geospatial Data Abstraction Library (GDAL).  The format consumed by {\tt ogr2ogr} is the shapefile, a complex GIS format that contains metadata about each locality as well as vector graphics information necessary to render it.
+
+The United States Census provides shapefiles for all counties and other localities within the United States.  Upon attempting to utilize these shapefiles with D3, we were surprised to find that the localities in Hampton Roads did not display as we had expected.  There appeared to be no water separating the Eastern Shore from the rest of Virginia, or many of the other parts of Virginia.  We used the ERDAS IMAGINE tool to visualize the GIS data so we could verify that we were seeing a correct rendering.  Figure \ref{fig:hr-tl-shapefile-view} displays the Hampton Roads area, as surrounding localities, as rendered by ERDAS IMAGINE using this first shapefile.
+
+Through this process discovered that the Census provides different resolutions of GIS data.  Further research on the web site, brought us to a file at a resolution of 20m, which is an abbreviation of 1:20,000,000.  We loaded this file into ERDAS IMAGINE and it rendered as shown in Figure \ref{fig:hr-cb-20m-shapefile-view}.  This was still considered unacceptable seeing as Gloucester County has a waterway separating it from York County, but this was not rendered at this resolution.  The best resolution we could find was 500k, which is an abbreviation of 1:500,000, shown in Figure \ref{fig:hr-cb-500k-shapefile-view}.  The 500k shapefile is what is used in our choropleth.
+
+
+
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.45\textwidth]{images/hr-with-2014-tl-shapefile.png}
-	\caption{}
+	\caption{Display of Hampton Roads using default United States Census shapefile using ERDAS IMAGINE}
 	\label{fig:hr-tl-shapefile-view}
 	
 	\vspace{3em}
 	
 	\includegraphics[width=0.45\textwidth]{images/hr-with-2013-cb-20m-shapefile.png}
-	\caption{}
+	\caption{Display of Hampton Roads using 20m United States Census shapefile using ERDAS IMAGINE}
 	\label{fig:hr-cb-20m-shapefile-view}
 
 	\vspace{3em}
 
 	\centering
 	\includegraphics[width=0.45\textwidth]{images/hr-with-2013-cb-500k-shapefile.png}
-	\caption{}
+	\caption{Display of Hampton Roads using 500k United States Census shapefile using ERDAS IMAGINE}
 	\label{fig:hr-cb-500k-shapefile-view}	
 \end{figure}
 
