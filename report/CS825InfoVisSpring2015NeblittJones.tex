@@ -113,6 +113,8 @@
 
 \usepackage{listings}
 
+\lstset{frame=single,language=XML,basicstyle=\footnotesize,showspaces=false,showstringspaces=false,showtabs=false,breaklines=true,captionpos=b,basicstyle=\scriptsize\ttfamily,numbers=left}
+
 % *** CITATION PACKAGES ***
 %
 \ifCLASSOPTIONcompsoc
@@ -689,6 +691,8 @@ Understanding the influx of federal contracting money for a region is important 
 	\caption{The United States Federal Contracting in Hampton Roads visualization in its default state}
 	\label{fig:default-main-vis}
 
+	\vspace{3em}
+
 	\centering
 	\includegraphics[width=0.4\textwidth]{images/HRFlagMapslide.png}
 	\caption{Hampton Roads, as defined by the HRPDC}
@@ -866,9 +870,19 @@ The United States Census provides shapefiles for all counties and other localiti
 
 Through this process discovered that the Census provides different resolutions of GIS data.  Further research on the web site, brought us to a file at a resolution of 20m, which is an abbreviation of 1:20,000,000.  We loaded this file into ERDAS IMAGINE and it rendered as shown in Figure \ref{fig:hr-cb-20m-shapefile-view}.  This was still considered unacceptable seeing as Gloucester County has a waterway separating it from York County, but this was not rendered at this resolution.  The best resolution we could find was 500k, which is an abbreviation of 1:500,000, shown in Figure \ref{fig:hr-cb-500k-shapefile-view}.  The 500k shapefile is what is used in our choropleth.
 
+Once we had the proper resolution, we needed to produce a map just containing the localities of Hampton Roads.  Fortunately, the shapefile format contains metadata fields STATEFP for identify states and COUNTYFP for identifying counties.  The STATEFP field contains globally unique values, but the COUNTYFP field does not, so both are needed to filter the data from the shapefile.  We produced a GeoJSON file as shown in line 1 from Listing \ref{lst:convert-shapefile-commands}, filtering out just the localities from Hampton Roads.  We then produced a TopoJSON file for use in D3 using line 2 from Listing \ref{lst:convert-shapefile-commands}.
 
+
+
+	\begin{minipage}[t]{0.85\linewidth}
+	\begin{lstlisting}[caption={Command for converting shapefile into GeoJSON format}, label={lst:convert-shapefile-commands}]
+ogr2ogr -f GeoJSON -where "STATEFP IN ( '51' ) AND COUNTYFP IN ( '550', '620', '073', '650', '093', '095', '700', '710', '735', '740', '175', '800', '810', '181', '830', '199' )" hrCounties.json cb_2013_us_county_500k.shp
+topojson -o hrCounties-topo.json --id-property COUNTYFP --properties name=NAME -- hrCounties.json
+	\end{lstlisting}
+	\end{minipage}
 
 \begin{figure}[htbp]
+
 	\centering
 	\includegraphics[width=0.45\textwidth]{images/hr-with-2014-tl-shapefile.png}
 	\caption{Display of Hampton Roads using default United States Census shapefile using ERDAS IMAGINE}
@@ -887,6 +901,8 @@ Through this process discovered that the Census provides different resolutions o
 	\caption{Display of Hampton Roads using 500k United States Census shapefile using ERDAS IMAGINE}
 	\label{fig:hr-cb-500k-shapefile-view}	
 \end{figure}
+
+Once we had the geographic data, we could complete the left part of the data flow shown in Figure \ref{fig:data-flow}.  With the financial data and geographic data, we could then move on to producing the visualization.
 
 \section{Our Visualization}
 
