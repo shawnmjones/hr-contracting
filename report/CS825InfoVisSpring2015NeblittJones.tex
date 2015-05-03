@@ -912,12 +912,53 @@ topojson -o hrCounties-topo.json --id-property COUNTYFP --properties name=NAME -
 Once we had the geographic data, we could complete the left part of the data flow shown in Figure \ref{fig:data-flow}.  With the financial data and geographic data, we could then move on to producing the visualization.
 
 \section{Our Visualization}
+
+\subsection{System Description}
+Our visualization contains three idioms - choropleth, sparkline, and bar chart. The sparkline shows the trend of spending across the four years. The bar chart shows a top five of industries to which the funding is directed. The choropleth shows the following:
+
+\begin{itemize}
+\item Hampton Roads localities (cities and counties as defined by the Hampton Roads Planning District Commission
+\item Single hue (greens) to show funding levels - darker greens (higher funding) to lightest green (lowest to negative funding)
+\end{itemize}
+
+Table \ref{tab:user-actions} shows the possible user actions. ``Sticky'' means that the visualization stays the same on that attribute regardless of user selections.
+
+\begin{table}[t]
+\centering
+\begin{tabular}{l | l | l | l}
+\textbf{} & \textbf{Choropleth} & \textbf{Bar Chart (Top 5)} & \textbf{Line Chart}\\
+\hline
+Default & Year: 2014 & Year: 2014 & Year: all (sticky)\\
+ & Agency: All & Agency: All & Agency: All\\
+ & Locality: All (sticky) & Locality: All & Locality: All\\
+\hline
+User selects locality A & Year: Selected & Year: Selected & Year: All (sticky) \\
+ & Agency: Selected & Agency: Selected & Agency: Selected\\
+ & Locality: All (sticky) & Locality: A & Locality: A\\
+\hline
+User selects agency B & Year: Selected & Year: Selected & Year: All (sticky) \\
+ & Agency: B & Agency: B & Agency: B\\
+ & Locality: All (sticky) & Locality: Selected & Locality: Selected\\
+\hline
+User selects year C & Year: C & Year: C & Year: All (sticky) \\
+& Agency: Selected & Agency: Selected & Agency: Selected\\
+& Locality: All (sticky) & Locality: Selected & Locality: Selected\\
+\hline
+\end{tabular}
+
+\caption{Overview of User Actions}
+\label{tab:user-actions}
+
+\end{table} 
+
+
 \subsection{What-Why-How Framework}
-Our visualization uses a sparkline, choropleth and a bar chart.
+
+The course textbook by Munzer describes a framework that designers should use as a guideline to develop visualizations. Our design choices should map to parts of that what-why-how framework. This section is an analysis of our visualization using that framework.
 
 \subsubsection{What: Datasets}
 
-Our visualization uses data types attributes, item, and positions. We use to dataset types - table and geometry. For the table our row represents a contract (item) and the columns represent attributes (e.g. locality, funding, year) of the contract. The choropleth uses the geometry dataset type with the shapefiles providing spatial position information, but also utilizes the table information (i.e. attributes) for encoding. The unclean nature of the data provided by USASpending.gov requires manual pre-processing before it can be used by our visualization. Therefore the dataset availability is static instead of dynamic.
+Our visualization uses data types attributes, item, and positions. We used dataset types - table and geometry. For the table our row represents a contract (item) and the columns represent attributes (e.g. locality, funding, year) of the contract. The choropleth uses the geometry dataset type with the shapefiles providing spatial position information, but also utilizes the table information (i.e. attributes) for encoding. The unclean nature of the data provided by USASpending.gov requires manual pre-processing before it can be used by our visualization. Therefore the dataset availability is static instead of dynamic.
 
 \subsubsection{What: Attributes}
 
