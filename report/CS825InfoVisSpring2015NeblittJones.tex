@@ -571,11 +571,11 @@ pdfkeywords={Computer Society, IEEEtran, journal, LaTeX, paper,
 % journal papers have the author affiliations above the "Manuscript
 % received ..."  text while in non-compsoc journals this is reversed. Sigh.
 
-%\author{Shawn~Jones,~\IEEEmembership{Member,~ACM,}
-%        and~Valentina~Neblitt-Jones,~\IEEEmembership{Member,~ACM}
+\author{Shawn~Jones,~\IEEEmembership{Old Dominion University Computer Science Department}
+and~Valentina~Neblitt-Jones,~\IEEEmembership{Old Dominion University Libraries}%
         %and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
         
-\author{Shawn Jones and Valentina Neblitt-Jones
+%\author{Shawn Jones and Valentina Neblitt-Jones
 \IEEEcompsocitemizethanks{\IEEEcompsocthanksitem S. M. Jones is with the Department
 of Computer Science, Old Dominion University, Norfolk,
 VA, 23529.\protect\\
@@ -789,7 +789,7 @@ Not all data is available.  As shown in Figure \ref{fig:data-download-large-reco
 	\label{fig:numrecords-barplot}	
 \end{figure}
 
-We downloaded the data for years 2006 - 2014 on April 1, 2015.  Being relegated to Sub-Award data, we attempted to download records for all of the years available.  We found that the number of records decreases precipitously, as shown in Figure \ref{fig:numrecords-barplot}.  For example, we found it hard to believe that the entire state of Virginia only had 2 contracts awarded in 2006.  These outliers forced us to consider any data from 2006 - 2010 as suspect, so we limited the year range of the data to only 2010 - 2014, ensuring that our visualization would feature the most accurate data we could find.
+We downloaded the data for years 2006 - 2014 on April 1, 2015.  Being relegated to Sub-Award data, we attempted to download records for all of the years available.  We found that the number of records decreases precipitously, as shown in Figure \ref{fig:numrecords-barplot}.  For example, we found it hard to believe that the entire state of Virginia only had 2 contracts awarded in 2006.  These outliers forced us to consider any data from 2006 - 2010 as suspect, so we limited the year range of the data to only 2010 - 2014, ensuring that our visualization would feature the most accurate data we could find.  The \url{usaspending.gov} site has changed in recent months, and has produced a number of complaints relating to the completeness of its data and usefulness of its visualizations \cite{hate-usaspending}.
 
 The CSV files consisted of 101 fields, providing information on each contract awarded.  From these files, and also using the provided data dictionary, we identified five useful fields for our endeavor.  Table \ref{tab:data-mapping} lists these fields and how we mapped them during our data processing.  We use the {\tt subaward\_principle\_place\_city} field to indicate the locality in which the work took place.  We use the {\tt subaward\_principle\_naics\_desc} field for information on which industry the contract applies to.  We use the {\tt subaward\_major\_agency\_name} field to identify the agency each contract applies to.  Contracts are complex, and have many pieces.  We had 3 agency fields to choose from, but {\tt subaward\_major\_agency\_name} indicates funding for the particular subcontractor performing work in the region, not necessarily the agency that controls the overall contract across the United States.  We use {\tt subaward\_amount} to indicate the amount of funding for the contract.  We chose this rather than the prime award amount because we are only interested in funding that ends up in Hampton Roads.  We use {\tt subaward\_fiscal\_year} to determine which data ends up in our visualization for a given year.  Most of the time, this field matched the download, but there were a few cases where it failed to, meaning that the subaward was dispersed in a separate year than the contract was awarded.  We were concerned about when the money ended up in Hampton Roads, so we use this field to ensure the data is correct.
 
@@ -1033,21 +1033,21 @@ Table \ref{tab:why-targets} outlines the targets in our visualization. Viewers c
 	
 	\centering
 	\includegraphics[width=0.4\textwidth]{images/vis-choropleth.png}
-	\caption{The choropleth part of our visualization}
+	\caption{The choropleth portion of our visualization}
 	\label{fig:vis-choropleth}
 
 	\vspace{6em}
 	
 	\centering
 	\includegraphics[width=0.4\textwidth]{images/vis-barchart.png}
-	\caption{The bar chart part of our visualization}
+	\caption{The bar chart portion of our visualization}
 	\label{fig:vis-barchart}
 
 	\vspace{6em}
 		
 	\centering
-	\includegraphics[width=0.4\textwidth]{images/vis-sparkline.png}
-	\caption{The sparkline part of our visualization}
+	\includegraphics[width=0.5\textwidth]{images/vis-sparkline.png}
+	\caption{The sparkline portion of our visualization}
 	\label{fig:vis-sparkline}
 	
 	\vspace{6em}		
@@ -1079,7 +1079,7 @@ The sparkline shown in Figure \ref{fig:vis-sparkline} is using angle to indicate
 
 \subsubsection{How: Manipulate/Facet/Reduce}
 
-The visualization provides the following three options (shown in Figure \ref{fig:vis-selections}) for manipulation or change via drop-down lists:
+The visualization provides the following three options, shown in Figure \ref{fig:vis-selections}, for manipulation or change via drop-down lists:
 
 \begin{itemize}
 \item Year
