@@ -585,7 +585,7 @@ E-mail: sjone@cs.odu.edu
 \IEEEcompsocthanksitem V. Neblitt-Jones is with University Libraries, Old Dominion University, Norfolk, VA 23529.
 \protect\\
 E-mail: vneblitt@odu.edu}% <-this % stops a space
-\thanks{Manuscript received May 1, 2015.}}
+\thanks{Manuscript received May 4, 2015.}}
 
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
@@ -648,9 +648,8 @@ E-mail: vneblitt@odu.edu}% <-this % stops a space
 % in the abstract or keywords.
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-The abstract goes here.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacinia, elit et pulvinar tristique, nibh mauris viverra eros, eget consequat elit magna ut mi. Nulla eu metus dignissim, semper mauris eu, convallis tortor. Proin ultrices, diam condimentum ullamcorper tincidunt, libero dolor tempor augue, at blandit purus ipsum tempor augue. Phasellus id arcu eget turpis feugiat maximus. Aliquam finibus dictum interdum. Fusce consequat erat ut magna ultricies auctor. Fusce pretium lectus luctus, pulvinar turpis id, facilisis tellus. Pellentesque eu purus tortor. Curabitur enim lectus, molestie eu finibus nec, auctor ac ante. Nullam et quam in ligula consequat aliquam et sit amet ipsum. Vestibulum eros sem, tempor a rhoncus a, blandit vulputate turpis. Nulla dignissim consequat velit, a viverra orci tincidunt eget. Maecenas condimentum dolor ut est commodo, vitae iaculis neque laoreet. Etiam fringilla tincidunt maximus. Nulla facilisi. Pellentesque id purus sodales, pellentesque nibh eu, viverra sapien. Nunc ut urna rhoncus, venenatis.
+We present a visualization for United States federal government contracting awards in the Hampton Roads region of the State of Virginia.  Our visualization consists of a map (choropleth) displaying different colors based on the funding each locality receives.  To the right of the map is a bar chart displaying a bar indicating how much funding each industry reciveds.  On top of the map and the bar chart is a small line chart (sparkline) showing the trend in funding.  Our visualization allows the user to select a year, agency, or locality with the Hampton Roads area, updating the choropleth, bar chart, and sparkline as appropriate.
+We detail issues with acquiring and processing data from \url{usapsending.gov}.  We also discuss how our visualization fits within Munzner's What-Why-How framework.
 \end{abstract}
 
 % Note that keywords are not normally used for peerreview papers.
@@ -694,7 +693,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis lacinia, elit et p
 \label{sec:introduction}
 \fi
 
-Understanding the influx of federal contracting money for a region is important for municipal planning.  The site \url{usaspending.gov} is the official United States Government web site providing data on federal monetary awards\cite{usaspending}.  This data can be mined to find information for specific localities individually.  A visualization comparing these localities to one another is important for understanding how funding affects a given region.  We present our visualization in Figure \ref{fig:default-main-vis}, allowing the user to compare the funding for each locality in Hampton Roads as well as comparing the top 5 industries for each agency or locality depending on which options the user chooses for agency, year, or locality.  A choropleth \cite{maceachren2004maps} on the bottom right allows the user to compare funding values for each locality.  A bar chart on the bottom left allows a user to compare funding values for each industry.  A sparkline \cite{tufte2001} on top shows the trend in funding.  The user may interact with the visualization by altering the year, agency and locality to acquire more specific information.
+Understanding the influx of federal contracting money for a region is important for municipal planning.  The site \url{usaspending.gov} is the official United States Government web site providing data on federal monetary awards\cite{usaspending}.  This data can be mined to find information for specific localities individually.  A visualization comparing these localities to one another is important for understanding how funding affects a given region.  We present our visualization, developed in D3\cite{d3}, in Figure \ref{fig:default-main-vis}, allowing the user to compare the funding for each locality in Hampton Roads as well as comparing the top 5 industries for each agency or locality depending on which options the user chooses for agency, year, or locality.  A choropleth \cite{maceachren2004maps} on the bottom right allows the user to compare funding values for each locality.  A bar chart on the bottom left allows a user to compare funding values for each industry.  A sparkline \cite{tufte2001} on top shows the trend in funding.  The user may interact with the visualization by altering the year, agency and locality to acquire more specific information.
 
 \begin{figure}[t]
 
@@ -998,7 +997,7 @@ Table \ref{tab:user-actions} shows the possible user actions. ``Sticky'' means t
 
 \subsection{What-Why-How Framework}
 
-Munzer describes a framework that designers should use as a guideline to develop visualizations\cite{munzner2014}. Our design choices should map to parts of that what-why-how framework. This section is an analysis of our visualization using that framework.
+Munzner describes a framework that designers should use as a guideline to develop visualizations\cite{munzner2014}. Our design choices should map to parts of that what-why-how framework. This section is an analysis of our visualization using that framework.
 
 \subsubsection{What: Datasets}
 
@@ -1103,10 +1102,17 @@ Using data from usaspending.gov and the United States Census, we have been able 
 
 We have shown how the data from usaspending.gov can be aggregated and converted into a form that allows users to query it based on agency, year, and/or locality.  We have shown how data from the United States Census can be processed to produce spatial data just for the Hampton Roads area.  We have discussed how the issues with the resolution of this data when used specifically for the localities in the Hampton Roads region, favoring the resolution of 1:500,000 as the best fit available.  We posit that other regions may benefit from higher resolution data, just like Hampton Roads.  We have discussed our struggles converting the data from usaspending.gov, and identified issues with its completeness.
 
-We have discussed out our visualization fits into Munzer's What-Why-How Framework, showing how our design choices reflect the intentions of that framework.  Our choropleth
+We have discussed out our visualization fits into Munzner's What-Why-How Framework, showing how our design choices reflect the intentions of that framework.  Our data consists of categorical, ordinal, quantitative and spatial attributes.  Our visualization is a specialized tool for answering questions about federal contracting awards in Hampton Roads, supporting the actions of analyze and query.  The viewer can use it to discover new information and derive new hypothesis, while also enjoying the data in a casual manner.  Viewers can also view trends and outliers, while also comparing funding between localities and industries.
+
+Using our visualization, the HRPDC and others can answer questions about federal contracting for industries and localities, allowing them to further make decisions about funding education or courting new businesses and industries.
+
+In the future, we would like to add support for sub-agencies, allowing the user to filter the data further.  We would also like to incorporate information about contracting companies in addition to industries.  Once \url{usaspending.gov} has more complete data, we would not only like to load data from prior to 2011, but also would like to incorporate prime contracting data as well.  We also would like to improve the visualization so that it supports a wider variety of browsers, to include mobile platforms.  Finally, we want to rework the existing data handling process so that updated data can be acquired from \url{usaspending.gov} and incorporated into the visualization for more up to date information.
 
 \section{Final Thoughts}
 
+In working on this visualization, we came to the conclusion that data processing was the most difficult part.  On the spectrum of data complexity, from unstructured to fully structured, the data was mostly structured, which made working with OpenRefine easy.  Unfortunately, our confidence in the data from \url{usaspending.gov} is not as high as we would like, considering some of the records appeared to come from cities outside of Virginia, even though we explicitly chose Virginia.
+
+We did, however, find that Munzner's What-Why-How framework was useful in making us consider the aspects of the visualization in a general way before we looking at domain-specific applications.
 
 \appendices
 %\section{Proof of the First Zonklar Equation}
@@ -1181,13 +1187,13 @@ The authors would like to thank James Clary, Senior Economist for the Hampton Ro
 % simpler here.)
 %\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{mshell}}]{Michael Shell}
 % or if you just want to reserve a space for a photo:
-
+%\begin{IEEEbiography}[{\includegraphics[width=1in, height=1.25in, clip, keepaspectratio]{images/20_me}}]{Shawn M. Jones}
 %\begin{IEEEbiography}{Shawn M. Jones}
 %Biography text here.
 %\end{IEEEbiography}
 
 % if you will not have a photo at all:
-\begin{IEEEbiography}{Shawn M. Jones}
+\begin{IEEEbiography}[{\includegraphics[width=1in, height=1.25in, clip, keepaspectratio]{images/20_me.png}}]{Shawn M. Jones}
 is a computer scientist with Space and Naval Warfare Systems Center Atlantic in Norfolk, VA. He completed his B.S. and M.S. in computer science from Old Dominion University. He is a Ph.D. student in computer science at Old Dominion University.
 \end{IEEEbiography}
 
@@ -1195,7 +1201,7 @@ is a computer scientist with Space and Naval Warfare Systems Center Atlantic in 
 % biographies
 %\newpage
 
-\begin{IEEEbiography}{Valentina Neblitt-Jones}
+\begin{IEEEbiography}[{\includegraphics[width=1in, height=1.25in, clip, keepaspectratio]{images/me-in-charlotte.png}}]{Valentina Neblitt-Jones}
 is the Head of Systems Development at Old Dominion University Libraries in Norfolk, VA. She completed her B.A. in international studies at Virginia Tech, B.S. in computer science at Old Dominion University, and M.S in library science at Florida State University.
 \end{IEEEbiography}
 
