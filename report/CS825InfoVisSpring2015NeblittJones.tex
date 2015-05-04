@@ -1032,20 +1032,6 @@ Table \ref{tab:why-targets} outlines the targets in our visualization. Viewers c
 %	\label{fig:choropleth-colors}
 	
 	\centering
-	\includegraphics[width=0.4\textwidth]{images/vis-selections.png}
-	\caption{Our visualization selections of year, agency, and locality}
-	\label{fig:vis-selections}
-
-	\vspace{6em}
-	
-	\centering
-	\includegraphics[width=0.4\textwidth]{images/vis-sparkline.png}
-	\caption{The sparkline part of our visualization}
-	\label{fig:vis-sparkline}
-
-	\vspace{6em}	
-	
-	\centering
 	\includegraphics[width=0.4\textwidth]{images/vis-choropleth.png}
 	\caption{The choropleth part of our visualization}
 	\label{fig:vis-choropleth}
@@ -1056,6 +1042,20 @@ Table \ref{tab:why-targets} outlines the targets in our visualization. Viewers c
 	\includegraphics[width=0.4\textwidth]{images/vis-barchart.png}
 	\caption{The bar chart part of our visualization}
 	\label{fig:vis-barchart}
+
+	\vspace{6em}
+		
+	\centering
+	\includegraphics[width=0.4\textwidth]{images/vis-sparkline.png}
+	\caption{The sparkline part of our visualization}
+	\label{fig:vis-sparkline}
+	
+	\vspace{6em}		
+	
+	\centering
+	\includegraphics[width=0.4\textwidth]{images/vis-selections.png}
+	\caption{Our visualization selections of year, agency, and locality}
+	\label{fig:vis-selections}	
 	
 \end{figure}
 
@@ -1073,13 +1073,13 @@ Shown in Figure \ref{fig:vis-choropleth}, the choropleth uses luminance with Col
 
 Our choropleth also uses the given geometry of map shapes.
 
-The bar chart relies on size (i.e. length of the bar) for encoding therefore the color is uniform. Funding is expressed via vertical position. The bars are aligned on the x-axis to provide a uniform starting point improving length/area judgments. They are also ordered highest to lowest and separated along the x-axis.
+The bar chart shown in Figure \ref{fig:vis-barchart} relies on size (i.e. length of the bar) for encoding therefore the color is uniform. Funding is expressed via vertical position. The bars are aligned on the x-axis to provide a uniform starting point improving length/area judgments. They are also ordered highest to lowest and separated along the x-axis.
 
-The sparkline is using angle to indicate funding trend. Is the line moving up, down or staying level? The dot is red to indicate the selected year. All years for which we have data are shown, but the colored dot provides the user feedback about the year chosen since it does change other parts of the visualization. Vertical position expresses funding and it is ordered by year.
+The sparkline shown in Figure \ref{fig:vis-sparkline} is using angle to indicate funding trend. Is the line moving up, down or staying level? The dot is red to indicate the selected year. All years for which we have data are shown, but the colored dot provides the user feedback about the year chosen since it does change other parts of the visualization. Vertical position expresses funding and it is ordered by year.
 
 \subsubsection{How: Manipulate/Facet/Reduce}
 
-The visualization provides the following three options for manipulation or change via drop-down lists:
+The visualization provides the following three options (shown in Figure \ref{fig:vis-selections}) for manipulation or change via drop-down lists:
 
 \begin{itemize}
 \item Year
